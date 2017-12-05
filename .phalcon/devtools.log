@@ -1,0 +1,4 @@
+Tue 21 09:29:11 10 php: [WARNING] E_WARNING: Phalcon\Assets\Resource::getContent(): SSL: Connection reset by peer in /vagrant/htdocs/WechatRobotPhalcon/cache/Phalcon_Web_Tools_Views_layouts_error.php on line 15
+Tue 21 09:29:11 10 php: [WARNING] E_WARNING: Phalcon\Assets\Resource::getContent(): Failed to enable crypto in /vagrant/htdocs/WechatRobotPhalcon/cache/Phalcon_Web_Tools_Views_layouts_error.php on line 15
+Tue 21 09:29:11 10 php: [WARNING] E_WARNING: Phalcon\Assets\Resource::getContent(https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js): failed to open stream: operation failed in /vagrant/htdocs/WechatRobotPhalcon/cache/Phalcon_Web_Tools_Views_layouts_error.php on line 15
+Tue 21 09:29:11 10 php: [ERROR] Uncaught exception: Resource's content for 'https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js' cannot be read in /vagrant/htdocs/WechatRobotPhalcon/cache/Phalcon_Web_Tools_Views_layouts_error.php on line 15
