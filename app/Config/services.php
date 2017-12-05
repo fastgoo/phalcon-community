@@ -14,14 +14,14 @@ use Phalcon\Logger;
  * 注册全局配置
  */
 $di->setShared('config', function () {
-    return include APP_PATH . "/config/config.php";
+    return include APP_PATH . "/Config/config.php";
 });
 
 /**
  * 注册公共全局配置
  */
 $di->setShared('commonConfig', function () {
-    return include APP_PATH . "/config/common.php";
+    return include APP_PATH . "/Config/common.php";
 });
 
 /**

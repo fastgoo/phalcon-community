@@ -17,7 +17,7 @@ try {
     /**
      * Read services
      */
-    include APP_PATH . '/config/services.php';
+    include APP_PATH . '/Config/services.php';
 
     /**
      * Get config service for use in inline setup below
@@ -27,7 +27,7 @@ try {
     /**
      * Handle routes
      */
-    include APP_PATH . '/config/router.php';
+    include APP_PATH . '/Config/router.php';
 
     /**
      * Handle the request
