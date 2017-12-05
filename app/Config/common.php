@@ -20,9 +20,17 @@ return new \Phalcon\Config([
      * GITHUB auth授权配置信息
      */
     'github' => [
-        'clientId' => '3de789e5949912c3a83b',
-        'clientSecret' => 'ba135baaffd5c4c5791d58f248f9503c1cb6f2cb',
-        'redirectUri' => 'https://phalcon.fastgoo.net/auth/github/callback',
+        'client_id' => '3de789e5949912c3a83b',
+        'client_secret' => 'ba135baaffd5c4c5791d58f248f9503c1cb6f2cb',
+        'redirect' => 'http://phalcon.fastgoo.net/auth/github/callback',
+    ],
+    /**
+     * qq auth授权配置信息
+     */
+    'qq' => [
+        'client_id' => '101280234',
+        'client_secret' => '68ee3753a25469e902fcb8a25ae878de',
+        'redirect' => 'http://phalcon.fastgoo.net/auth/qq/callback',
     ],
     /**
      * Jpush极光推送配置

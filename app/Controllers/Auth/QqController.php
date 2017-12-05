@@ -11,13 +11,13 @@ namespace App\Controllers\Auth;
 use App\Controllers\BaseController;
 use Overtrue\Socialite\SocialiteManager;
 
-class GithubController extends BaseController
+class QqController extends BaseController
 {
     private $socialite;
 
     public function onConstruct()
     {
-        $this->socialite = new SocialiteManager(['github' => $this->commonConfig->github->toArray()]);
+        $this->socialite = new SocialiteManager(['qq' => $this->commonConfig->qq->toArray()]);
     }
 
     /**
@@ -25,7 +25,7 @@ class GithubController extends BaseController
      */
     public function authAction()
     {
-        $response = $this->socialite->driver('github')->redirect();
+        $response = $this->socialite->driver('qq')->redirect();
         $response->send();
     }
 
@@ -34,7 +34,7 @@ class GithubController extends BaseController
      */
     public function callbackAction()
     {
-        $user = $this->socialite->driver('github')->user();
+        $user = $this->socialite->driver('qq')->user();
         var_dump($user);
     }
 
