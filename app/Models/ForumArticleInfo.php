@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-class ForumArticleInfo extends BaseModel
-{
+class ForumArticleInfo extends BaseModel {
 
     /**
      *
@@ -101,15 +100,9 @@ class ForumArticleInfo extends BaseModel
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
+    public function initialize() {
         $this->setSchema("phalcon-forum");
-        $this->belongsTo(
-            "user_id",
-            "App\\Models\\ForumUser",
-            "id",
-            ['alias' => 'userInfo']
-        );
+        $this->belongsTo("user_id", "App\\Models\\ForumUser", "id", ['alias' => 'userInfo']);
     }
 
     /**
@@ -117,9 +110,17 @@ class ForumArticleInfo extends BaseModel
      *
      * @return string
      */
-    public function getSource()
-    {
+    public function getSource() {
         return 'forum_article_info';
+    }
+
+    /**
+     * 获取模型对象
+     *
+     * @return string
+     */
+    public function t() {
+        return __CLASS__;
     }
 
     /**
@@ -128,8 +129,7 @@ class ForumArticleInfo extends BaseModel
      * @param mixed $parameters
      * @return ForumArticleInfo[]|ForumArticleInfo|\Phalcon\Mvc\Model\ResultSetInterface
      */
-    public static function find($parameters = null)
-    {
+    public static function find($parameters = null) {
         return parent::find($parameters);
     }
 
@@ -139,8 +139,7 @@ class ForumArticleInfo extends BaseModel
      * @param mixed $parameters
      * @return ForumArticleInfo|\Phalcon\Mvc\Model\ResultInterface
      */
-    public static function findFirst($parameters = null)
-    {
+    public static function findFirst($parameters = null) {
         return parent::findFirst($parameters);
     }
 

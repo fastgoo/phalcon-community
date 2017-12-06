@@ -39,7 +39,8 @@ class ArticleController extends BaseController
         $article->format_time = timeCompute($article->created_time);
         $article->tag_name = $tags[$article->tag];
         $this->view->article = $article;
-        $this->view->render("forum", "detail");
+        $this->display('/forum/detail',$article);
+        //$this->view->render("forum", "detail");
     }
 
     /**
