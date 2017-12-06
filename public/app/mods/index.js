@@ -650,6 +650,20 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             }
         }
     });
+    console.log($("#page_count").val());
+    console.log($("#current_page").val());
+    //总页数大于页码总数
+    layui.laypage.render({
+        elem: 'pagination'
+        , count: $("#page_count").val()
+        , limit: 15
+        , curr: $("#current_page").val()
+        , jump: function (obj) {
+            if (obj.curr != $("#current_page").val()) {
+                location.href = $("#page_link").val() + obj.curr
+            }
+        }
+    });
 
     exports('fly', fly);
 

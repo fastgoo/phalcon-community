@@ -1,32 +1,39 @@
 <ul class="fly-list">
-    <?php foreach(range(1,18) as $k=>$val){?>
-    <li>
-        <a href="{{ this.url.get('/user/home/detail/') }}1" class="fly-avatar">
-            <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                 alt="贤心">
-        </a>
-        <h2>
-            <a class="layui-badge">动态</a>
-            <a href="{{ this.url.get('/forum/article/detail/') }}1">基于 layui 的极简社区页面模版</a>
-        </h2>
-        <div class="fly-list-info">
-            <a href="user/home.html" link>
-                <cite>贤心</cite>
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
+    {% for index, item in article_list %}
+        <li>
+            <a href="{{ this.url.get('/user/home/detail/') }}{{ item.articleUserInfo.id }}" class="fly-avatar">
+                <img src="{{ item.articleUserInfo.head_img }}"
+                     alt="{{ item.articleUserInfo.nickname }}">
             </a>
-            <span>刚刚</span>
+            <h2>
+                <a class="layui-badge">{{ item.tag }}</a>
+                <a href="{{ this.url.get('/forum/article/detail/') }}{{ item.id }}">{{ item.title }}</a>
+            </h2>
+            <div class="fly-list-info">
+                <a href="{{ this.url.get('/user/home/detail/') }}{{ item.articleUserInfo.id }}" link>
+                    <cite>{{ item.articleUserInfo.nickname }}</cite>
+                    {% if item.articleUserInfo.verify_type %}
+                        <i class="iconfont icon-renzheng" title="认证信息：{{ item.articleUserInfo.verify_type }}"></i>
+                    {% endif %}
+                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                </a>
+                <span>发布于: <?php echo timeCompute($item->created_time) ;?></span>
 
-            <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i
-                        class="iconfont icon-kiss"></i> 60</span>
-            <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
-            <span class="fly-list-nums">
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-        </div>
-        <div class="fly-list-badge">
-            <span class="layui-badge layui-bg-red">精帖</span>
-        </div>
-    </li>
-    <?php }?>
+                <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻" style="color: #999">
+                    <i class="iconfont" title="人气">&#xe60b;</i> {{ item.view_nums }}
+                </span>
+                <span class="fly-list-nums">
+                    <i class="iconfont icon-pinglun1" title="回答"></i> {{ item.reply_nums }}
+                </span>
+            </div>
+            <div class="fly-list-badge">
+                {% if item.is_top %}
+                    <span class="layui-badge layui-bg-black">置顶</span>
+                {% endif %}
+                {% if item.is_essence %}
+                    <span class="layui-badge layui-bg-red">精帖</span>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
 </ul>
