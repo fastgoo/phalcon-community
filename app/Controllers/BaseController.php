@@ -6,10 +6,12 @@ use Phalcon\Mvc\Controller;
 
 class BaseController extends Controller
 {
+    public $user;
 
     public function onConstruct()
     {
-        $this->view->local_user = $this->session->get('user');
+        $this->user = $this->session->get('user');
+        $this->view->local_user = $this->user;
     }
 
     /**
@@ -28,7 +30,7 @@ class BaseController extends Controller
      */
     public function initialize()
     {
-        
+
     }
 
 }

@@ -69,7 +69,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 data: data,
                 url: url,
                 success: function (res) {
-                    if (res.status === 0) {
+                    if (res.code === 1) {
                         success && success(res);
                     } else {
                         layer.msg(res.msg || res.code, {shift: 6});
@@ -551,6 +551,9 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
     //表单提交
     form.on('submit(*)', function (data) {
         var action = $(data.form).attr('action'), button = $(data.elem);
+        if (data.field.html_content) {
+            data.field.html_content = fly.content(data.field.html_content);
+        }
         fly.json(action, data.field, function (res) {
             var end = function () {
                 if (res.action) {
@@ -637,8 +640,13 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         , bgcolor: '#009688'
         , click: function (type) {
             if (type === 'bar1') {
-                //layer.msg('打开 index.js，开启发表新帖的路径');
-                location.href = '/forum/home/add';
+                if ($("#local_user").val() == 1) {
+                    location.href = '/forum/article/add';
+                } else {
+                    //layer.msg('请先登录');
+                    //$('.login-header').click();
+                    location.href = '/forum/article/add';
+                }
             }
         }
     });

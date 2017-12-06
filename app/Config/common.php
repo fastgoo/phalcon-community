@@ -19,7 +19,7 @@ return new \Phalcon\Config([
     /**
      * 授权认证器配置
      */
-    'socialite'=>[
+    'socialite' => [
         'github' => [
             'client_id' => '3de789e5949912c3a83b',
             'client_secret' => 'ba135baaffd5c4c5791d58f248f9503c1cb6f2cb',
@@ -110,33 +110,11 @@ return new \Phalcon\Config([
      * 社区首页标签以及状态
      */
     'tag_list' => [
-        0 => [
-            'name' => '最新',
-            'has_new' => 0,
-        ],
-        1 => [
-            'name' => '公告',
-            'has_new' => 1,
-        ],
-        2 => [
-            'name' => '热门',
-            'has_new' => 0,
-        ],
-        3 => [
-            'name' => '精华',
-            'has_new' => 0,
-        ],
-        4 => [
-            'name' => '分享',
-            'has_new' => 0,
-        ],
-        5 => [
-            'name' => '求助',
-            'has_new' => 0,
-        ],
-        6 => [
-            'name' => '反馈',
-            'has_new' => 0,
-        ]
+        0 => ['name' => '最新', 'has_new' => 0,],
+        1 => ['name' => '热门', 'has_new' => 0,],
+        2 => ['name' => '精华', 'has_new' => 0,],
+        3 => ['name' => '分享', 'has_new' => 0,],
+        4 => ['name' => '求助', 'has_new' => 0,],
     ],
+    'tags' => ['默认', '分享', '求助'],
 ]);

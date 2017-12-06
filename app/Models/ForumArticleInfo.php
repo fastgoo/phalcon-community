@@ -104,6 +104,12 @@ class ForumArticleInfo extends BaseModel
     public function initialize()
     {
         $this->setSchema("phalcon-forum");
+        $this->belongsTo(
+            "user_id",
+            "App\\Models\\ForumUser",
+            "id",
+            ['alias' => 'userInfo']
+        );
     }
 
     /**

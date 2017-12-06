@@ -97,6 +97,11 @@ class ForumUser extends BaseModel
     public function initialize()
     {
         $this->setSchema("phalcon-forum");
+        $this->hasMany(
+            "id",
+            "App\\Models\\ForumArticleInfo",
+            "user_id"
+        );
     }
 
     /**

@@ -9,6 +9,7 @@
 namespace App\Controllers\Forum;
 
 use App\Controllers\BaseController;
+use App\Models\ForumArticleInfo;
 
 class HomeController extends BaseController
 {
@@ -24,26 +25,15 @@ class HomeController extends BaseController
     {
         $this->view->choose_tag = $tag;
         $this->view->order_by_time = true;
+
+        $page = $this->request->get('current_page', 'int', 1);
+        $page_nums = $this->request->get('page_nums', 'int', 15);
+
+        $data = ForumArticleInfo::find("id IN(1,2)");
+        var_dump($data->userInfo->id);exit;
+        //var_dump($data->userInfo->toArray());exit;
+        //$data['user'] = $data->userInfo->toArray();
+        //output_data(1,'success',$data);
         $this->view->render("forum", "home");
-    }
-
-    public function detailAction()
-    {
-        $this->view->render("forum", "detail");
-    }
-
-    public function addAction()
-    {
-        $this->view->render("forum", "add");
-    }
-
-    public function showAction()
-    {
-        $this->view->render("forum", "show_content");
-    }
-
-    public function error404Action()
-    {
-        $this->view->render("common", "error404");
     }
 }
