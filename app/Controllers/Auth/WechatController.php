@@ -9,15 +9,16 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
-use App\Services\AuthService;
 use Overtrue\Socialite\SocialiteManager;
 
-class QqController extends BaseController
+class WechatController extends BaseController
 {
     private $socialite;
 
     public function onConstruct()
     {
+        $url = $this->request->get('redirectUrl');
+        $this->session->set('redirectUrl', $url);
         $this->socialite = new SocialiteManager($this->commonConfig->socialite->toArray());
     }
 
@@ -26,9 +27,7 @@ class QqController extends BaseController
      */
     public function authAction()
     {
-        $url = $this->request->get('redirectUrl');
-        $this->session->set('redirectUrl', $url);
-        $response = $this->socialite->driver('qq')->redirect();
+        $response = $this->socialite->driver('wechat')->redirect();
         $response->send();
     }
 
@@ -37,12 +36,12 @@ class QqController extends BaseController
      */
     public function callbackAction()
     {
-        $user = $this->socialite->driver('qq')->user();
+        $user = $this->socialite->driver('wechat')->user();
         $authUser = [
             'auth_id' => (string)$user['id'],
             'nickname' => $user['nickname'],
             'head_img' => $user['avatar'],
-            'auth_type' => 2,
+            'auth_type' => 1,
         ];
         $authService = new AuthService();
         $res = $authService->register($authUser);

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class RobotFriendCommand extends BaseModel
+class ForumRecommandResource extends BaseModel
 {
 
     /**
@@ -16,59 +16,45 @@ class RobotFriendCommand extends BaseModel
 
     /**
      *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $type;
-
-    /**
-     *
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $app_id;
+    public $title;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=30, nullable=false)
+     * @Column(type="string", length=500, nullable=false)
      */
-    public $command;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", nullable=true)
-     */
-    public $reply;
+    public $url;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=4, nullable=false)
      */
-    public $status;
+    public $sort;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $create_time;
+    public $created_time;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $update_time;
+    public $updated_time;
 
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->setSchema("wechat-robot");
+        $this->setSchema("phalcon-forum");
     }
 
     /**
@@ -78,14 +64,14 @@ class RobotFriendCommand extends BaseModel
      */
     public function getSource()
     {
-        return 'robot_friend_command';
+        return 'forum_recommand_resource';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotFriendCommand[]|RobotFriendCommand|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumRecommandResource[]|ForumRecommandResource|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -96,7 +82,7 @@ class RobotFriendCommand extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotFriendCommand|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumRecommandResource|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

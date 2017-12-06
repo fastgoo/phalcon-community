@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class RobotGroupList extends BaseModel
+class ForumAdvertising extends BaseModel
 {
 
     /**
@@ -17,79 +17,30 @@ class RobotGroupList extends BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=50, nullable=false)
-     */
-    public $app_id;
-
-    /**
-     *
-     * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $group_name;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $is_at;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $is_like;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $is_search;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $is_kick;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $is_welcome_msg;
+    public $title;
 
     /**
      *
      * @var string
      * @Column(type="string", length=500, nullable=false)
      */
-    public $welcome_msg;
+    public $desc;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=200, nullable=false)
+     */
+    public $image;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=4, nullable=false)
      */
-    public $is_auto_add;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=50, nullable=false)
-     */
-    public $auth_key;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=500, nullable=false)
-     */
-    public $new_friend_msg;
+    public $sort;
 
     /**
      *
@@ -103,21 +54,21 @@ class RobotGroupList extends BaseModel
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $create_time;
+    public $created_time;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $update_time;
+    public $updated_time;
 
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->setSchema("wechat-robot");
+        $this->setSchema("phalcon-forum");
     }
 
     /**
@@ -127,14 +78,14 @@ class RobotGroupList extends BaseModel
      */
     public function getSource()
     {
-        return 'robot_group_list';
+        return 'forum_advertising';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotGroupList[]|RobotGroupList|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumAdvertising[]|ForumAdvertising|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -145,7 +96,7 @@ class RobotGroupList extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotGroupList|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumAdvertising|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

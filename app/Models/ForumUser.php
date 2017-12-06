@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class RobotAdminInfo extends BaseModel
+class ForumUser extends BaseModel
 {
 
     /**
@@ -16,10 +16,17 @@ class RobotAdminInfo extends BaseModel
 
     /**
      *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
+     */
+    public $auth_type;
+
+    /**
+     *
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $openid;
+    public $auth_id;
 
     /**
      *
@@ -31,51 +38,37 @@ class RobotAdminInfo extends BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=20, nullable=false)
-     */
-    public $username;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=200, nullable=false)
-     */
-    public $password;
-
-    /**
-     *
-     * @var string
      * @Column(type="string", length=200, nullable=false)
      */
     public $head_img;
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=200, nullable=false)
+     * @var integer
+     * @Column(type="integer", length=1, nullable=false)
      */
-    public $idcard_forward_side;
+    public $sex;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $city;
 
     /**
      *
      * @var string
      * @Column(type="string", length=200, nullable=false)
      */
-    public $idcard_back_side;
+    public $sign;
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=50, nullable=false)
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
      */
-    public $app_id;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=200, nullable=false)
-     */
-    public $app_secret;
+    public $verify_type;
 
     /**
      *
@@ -89,28 +82,21 @@ class RobotAdminInfo extends BaseModel
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $login_time;
+    public $created_time;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $create_time;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $update_time;
+    public $updated_time;
 
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->setSchema("wechat-robot");
+        $this->setSchema("phalcon-forum");
     }
 
     /**
@@ -120,14 +106,14 @@ class RobotAdminInfo extends BaseModel
      */
     public function getSource()
     {
-        return 'robot_admin_info';
+        return 'forum_user';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotAdminInfo[]|RobotAdminInfo|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumUser[]|ForumUser|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -138,25 +124,11 @@ class RobotAdminInfo extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotAdminInfo|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumUser|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
     }
 
-    public function beforeCreate()
-    {
-        $this->create_time = date("Y-m-d H:i:s");
-    }
-
-    public function beforeUpdate()
-    {
-        $this->update_time = time();
-    }
-
-    public function beforeSave()
-    {
-        $this->update_time = time();
-    }
 }

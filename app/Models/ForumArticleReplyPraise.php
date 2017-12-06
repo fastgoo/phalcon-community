@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class RobotQrcodeList extends BaseModel
+class ForumArticleReplyPraise extends BaseModel
 {
 
     /**
@@ -16,45 +16,38 @@ class RobotQrcodeList extends BaseModel
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=50, nullable=false)
-     */
-    public $app_id;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=200, nullable=false)
-     */
-    public $qrcode;
-
-    /**
-     *
      * @var integer
-     * @Column(type="integer", length=4, nullable=false)
+     * @Column(type="integer", length=11, nullable=false)
      */
-    public $status;
+    public $user_id;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $create_time;
+    public $article_id;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $update_time;
+    public $reply_id;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $created_time;
 
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->setSchema("wechat-robot");
+        $this->setSchema("phalcon-forum");
     }
 
     /**
@@ -64,14 +57,14 @@ class RobotQrcodeList extends BaseModel
      */
     public function getSource()
     {
-        return 'robot_qrcode_list';
+        return 'forum_article_reply_praise';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotQrcodeList[]|RobotQrcodeList|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumArticleReplyPraise[]|ForumArticleReplyPraise|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -82,7 +75,7 @@ class RobotQrcodeList extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotQrcodeList|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumArticleReplyPraise|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

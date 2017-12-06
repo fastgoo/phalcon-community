@@ -11,7 +11,7 @@ return new Config([
         'host' => '5775d04228bfe.sh.cdb.myqcloud.com',
         'username' => 'cdb_outerroot',
         'password' => 'huoniaojungege@',
-        'dbname' => 'wechat-robot',
+        'dbname' => 'phalcon-forum',
         'port' => '5681',
         'charset' => 'utf8',
     ],

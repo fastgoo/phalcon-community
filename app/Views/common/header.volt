@@ -16,12 +16,12 @@
                 <li class="layui-nav-item">
                     <a class="fly-nav-avatar" href="javascript:;">
                         <cite class="layui-hide-xs">{{ local_user['nickname'] }}</cite>
-                        {% if local_user['is_verify'] %}
+                        {% if local_user['verify_type'] %}
                             <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
                         {% endif %}
-                        {% if local_user['vip'] > 0 %}
+                        {#{% if local_user['vip'] > 0 %}
                             <i class="layui-badge fly-badge-vip layui-hide-xs">{{ local_user['title'] }}</i>
-                        {% endif %}
+                        {% endif %}#}
                         <img src="{{ local_user['head_img'] }}">
                     </a>
                     <dl class="layui-nav-child">

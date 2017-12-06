@@ -9,6 +9,7 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
+use App\Services\AuthService;
 use Overtrue\Socialite\SocialiteManager;
 
 class GithubController extends BaseController
@@ -17,7 +18,7 @@ class GithubController extends BaseController
 
     public function onConstruct()
     {
-        $this->socialite = new SocialiteManager(['github' => $this->commonConfig->github->toArray()]);
+        $this->socialite = new SocialiteManager($this->commonConfig->socialite->toArray());
     }
 
     /**
@@ -25,6 +26,8 @@ class GithubController extends BaseController
      */
     public function authAction()
     {
+        $url = $this->request->get('redirectUrl');
+        $this->session->set('redirectUrl', $url);
         $response = $this->socialite->driver('github')->redirect();
         $response->send();
     }
@@ -35,7 +38,19 @@ class GithubController extends BaseController
     public function callbackAction()
     {
         $user = $this->socialite->driver('github')->user();
-        var_dump($user);
+        $authUser = [
+            'auth_id' => (string)$user['id'],
+            'nickname' => $user['nickname'],
+            'head_img' => $user['avatar'],
+            'auth_type' => 1,
+        ];
+        $authService = new AuthService();
+        $res = $authService->register($authUser);
+        if ($res) {
+            $this->authSuccess($res);
+        } else {
+            exit("登陆失败");
+        }
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class RobotFriendSet extends BaseModel
+class ForumArticleInfo extends BaseModel
 {
 
     /**
@@ -16,24 +16,66 @@ class RobotFriendSet extends BaseModel
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=50, nullable=false)
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
      */
-    public $app_id;
+    public $user_id;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
+     */
+    public $tag;
 
     /**
      *
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $auth_key;
+    public $title;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=1000, nullable=false)
+     * @Column(type="string", nullable=false)
      */
-    public $welcome_msg;
+    public $content;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
+     */
+    public $is_essence;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
+     */
+    public $is_top;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $adoption_reply_id;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $reply_nums;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $view_nums;
 
     /**
      *
@@ -47,21 +89,21 @@ class RobotFriendSet extends BaseModel
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $create_time;
+    public $created_time;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $update_time;
+    public $updated_time;
 
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->setSchema("wechat-robot");
+        $this->setSchema("phalcon-forum");
     }
 
     /**
@@ -71,14 +113,14 @@ class RobotFriendSet extends BaseModel
      */
     public function getSource()
     {
-        return 'robot_friend_set';
+        return 'forum_article_info';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotFriendSet[]|RobotFriendSet|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumArticleInfo[]|ForumArticleInfo|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -89,7 +131,7 @@ class RobotFriendSet extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RobotFriendSet|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumArticleInfo|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
