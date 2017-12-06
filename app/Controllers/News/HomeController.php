@@ -12,10 +12,6 @@ use App\Controllers\BaseController;
 
 class HomeController extends BaseController
 {
-    public function onConstruct()
-    {
-
-    }
 
     public function initialize()
     {
