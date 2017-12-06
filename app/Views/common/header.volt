@@ -31,7 +31,7 @@
                         <dd><a href="user/home.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
                         </dd>
                         <hr style="margin: 5px 0;">
-                        <dd><a href="/user/logout/" style="text-align: center;">退出</a></dd>
+                        <dd><a href="/auth/login_out/index" style="text-align: center;">退出</a></dd>
                     </dl>
                 </li>
             {% else %}
