@@ -48,7 +48,7 @@
 {{ partial("common/footer",['links': '123']) }}
 
 
-<script src="/app/layui/layui.js"></script>
+<script src="/app/layui/layui.all.js"></script>
 <script>
     layui.cache.page = '';
     layui.cache.user = {

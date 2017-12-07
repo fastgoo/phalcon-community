@@ -116,5 +116,5 @@ return new \Phalcon\Config([
         3 => ['name' => '分享', 'has_new' => 0,],
         4 => ['name' => '求助', 'has_new' => 0,],
     ],
-    'tags' => ['默认', '分享', '求助'],
+    'tags' => ['动态', '分享', '求助'],
 ]);

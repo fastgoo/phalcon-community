@@ -1,4 +1,5 @@
 <ul class="fly-list">
+    <?php $show_tags = $this->commonConfig->tags->toArray();?>
     {% for index, item in article_list %}
         <li>
             <a href="{{ this.url.get('/user/home/detail/') }}{{ item.articleUserInfo.id }}" class="fly-avatar">
@@ -6,7 +7,7 @@
                      alt="{{ item.articleUserInfo.nickname }}">
             </a>
             <h2>
-                <a class="layui-badge">{{ item.tag }}</a>
+                <a class="layui-badge">{{ show_tags[item.tag] }}</a>
                 <a href="{{ this.url.get('/forum/article/detail/') }}{{ item.id }}">{{ item.title }}</a>
             </h2>
             <div class="fly-list-info">

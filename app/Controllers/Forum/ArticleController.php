@@ -10,6 +10,8 @@ namespace App\Controllers\Forum;
 
 use App\Controllers\BaseController;
 use App\Models\ForumArticleInfo;
+use App\Models\ForumArticleReplyPraise;
+use App\Services\ReplyService;
 
 class ArticleController extends BaseController
 {
@@ -27,6 +29,11 @@ class ArticleController extends BaseController
      */
     public function detailAction($id)
     {
+        $page = $this->request->get('current_page', 'int', 1);
+        $nums = $this->request->get('page_nums', 'int', 15);
+        $page <= 0 && $page = 1;
+        $nums <= 0 && $nums = 15;
+
         $article = ForumArticleInfo::findFirst([
             "conditions" => "id = :article_id: AND status = :status:",
             "bind" => [
@@ -39,6 +46,16 @@ class ArticleController extends BaseController
         $article->format_time = timeCompute($article->created_time);
         $article->tag_name = $tags[$article->tag];
         $this->view->article = $article;
+        $replyService = new ReplyService();
+        $replyList = $replyService->getArticleReply($id, $page, $nums);
+        $this->view->reply = $replyList['data'];
+        $this->view->reply_count = $replyList['count'];
+        $this->view->pagination = [
+            'current_page' => $page,
+            'count' => $replyList['count'],
+            'max_page' => (int)ceil($replyList['count'] / $nums),
+            'link' => '/forum/article/detail/' . $id . "?current_page="
+        ];
         $this->view->render("forum", "detail");
     }
 

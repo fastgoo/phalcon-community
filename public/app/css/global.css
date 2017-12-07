@@ -380,7 +380,8 @@ body .layui-edit-face  .layui-layer-content{padding:0; background-color:#fff; co
 .jieda-reply span em{font-style: normal;}
 .jieda-reply span .icon-zan{font-size: 22px;}
 .jieda-reply .zanok,
-.jieda-reply .jieda-zan:hover{color:#c00}
+.jieda-reply .jieda-zan:hover{color: #498fff
+}
 .jieda-reply span .icon-svgmoban53{position: relative; top: 1px;}
 
 

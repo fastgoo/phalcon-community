@@ -71,6 +71,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 success: function (res) {
                     if (res.code === 1) {
                         success && success(res);
+                    } else if (res.code === -401) {
+                        $('.login-header').click();
                     } else {
                         layer.msg(res.msg || res.code, {shift: 6});
                         options.error && options.error();
@@ -637,7 +639,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
     //固定Bar
     util.fixbar({
         bar1: '&#xe642;'
-        , bgcolor: '#009688'
+        , bgcolor: '#5d6477'
         , click: function (type) {
             if (type === 'bar1') {
                 if ($("#local_user").val() == 1) {
@@ -650,8 +652,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             }
         }
     });
-    console.log($("#page_count").val());
-    console.log($("#current_page").val());
+
     //总页数大于页码总数
     layui.laypage.render({
         elem: 'pagination'
@@ -660,10 +661,48 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         , curr: $("#current_page").val()
         , jump: function (obj) {
             if (obj.curr != $("#current_page").val()) {
-                location.href = $("#page_link").val() + obj.curr
+                location.href = $("#page_link").val() + obj.curr + (obj.curr > 1 ? '#flyReply' : '')
             }
         }
     });
+
+    $(".jieda-zan").on("click", function () {
+        var status = $(this).data('status')
+            , reply_id = $(this).data('id');
+        if (status) {
+            return;
+        }
+
+        fly.json('/forum/reply/doPraise', {
+            reply_id: reply_id,
+            article_id: $("input[name='article_id']").val()
+        }, function (res) {
+            if (res.code == 1) {
+                layer.msg(res.msg);
+                $(this).addClass('zanok');
+            }
+        }, {
+            error: function () {
+                //$(this).removeClass('zanok');
+            }
+        });
+    });
+
+    $(".jieda-accept").on("click", function () {
+        var reply_id = $(this).data('id');
+
+        layer.confirm('设为最佳答案？', {icon: 3, title: '提示'}, function (index) {
+            fly.json('/forum/reply/chooseAnswer', {
+                reply_id: reply_id,
+                article_id: $("input[name='article_id']").val()
+            }, function (res) {
+                layer.msg('点赞成功！');
+                $(this).addClass('zanok');
+            });
+            layer.close(index);
+        });
+    });
+
 
     exports('fly', fly);
 
