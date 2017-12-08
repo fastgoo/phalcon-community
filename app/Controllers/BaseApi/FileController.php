@@ -8,10 +8,9 @@
 
 namespace App\Controllers\BaseApi;
 
-use App\Controllers\BaseController;
 use App\Library\Qiniu;
 
-class FileController extends BaseController
+class FileController extends \Phalcon\Mvc\Controller
 {
     /**
      * 上传文件到七牛云

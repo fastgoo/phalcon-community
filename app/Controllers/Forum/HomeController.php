@@ -68,7 +68,6 @@ class HomeController extends BaseController
                 break;
         }
 
-
         $data = ForumArticleInfo::find([
             "conditions" => $conditions,
             "bind" => $bind,
