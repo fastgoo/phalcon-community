@@ -5,16 +5,17 @@ $router = $di->getRouter();
 
 $router->setDefaults([
     "controller" => $config->baseController,
-    "action" => $config->baseAction
+    "action" => $config->baseAction,
+    "namespace" => "App\\Controllers\\Forum"
 ]);
 
 $modules = [
     'base.api' => 'BaseApi',
     'admin.api' => 'Admin\\Api',
     'admin.web' => 'Admin\\Web',
-    'news'=>'News',
-    'forum'=>'Forum',
-    'auth'=>'Auth',
+    'news' => 'News',
+    'forum' => 'Forum',
+    'auth' => 'Auth',
 ];
 
 
