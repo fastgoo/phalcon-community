@@ -30,7 +30,7 @@ class ReplyService
         $data = ForumArticleReply::find([
             "conditions" => $conditions,
             "bind" => $bind,
-            'order' => "is_adoption DESC, praise_nums DESC, id DESC",
+            'order' => "is_adoption DESC, praise_nums DESC, id ASC",
             'limit' => $page_nums,
             'offset' => ($page - 1) * $page_nums
         ]);

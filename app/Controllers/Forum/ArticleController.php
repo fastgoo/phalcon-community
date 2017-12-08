@@ -10,7 +10,6 @@ namespace App\Controllers\Forum;
 
 use App\Controllers\BaseController;
 use App\Models\ForumArticleInfo;
-use App\Models\ForumArticleReplyPraise;
 use App\Services\ReplyService;
 
 class ArticleController extends BaseController
@@ -42,6 +41,12 @@ class ArticleController extends BaseController
             ],
             'columns' => '*',
         ]);
+        if (!$article) {
+            $this->view->render("common", "error404");
+            return;
+        }
+        $article->view_nums += 1;
+        $article->save();
         $tags = $this->commonConfig->tags->toArray();
         $article->format_time = timeCompute($article->created_time);
         $article->tag_name = $tags[$article->tag];
@@ -91,11 +96,14 @@ class ArticleController extends BaseController
             output_data(-502, '非法请求');
         }
 
-        if (!$this->security->checkToken()) {
-            output_data(-401, '请刷新页面重新再提交请求');
+        if (!$this->user) {
+            output_data(-401, '请先登录');
         }
 
-        $this->user['id'] = 1;
+        if (!$this->security->checkToken()) {
+            output_data(-400, '请刷新页面重新再提交请求');
+        }
+
         $title = $this->request->getPost('title');
         $tag = $this->request->getPost('tag', 'int');
         $content = $this->request->getPost('html_content');

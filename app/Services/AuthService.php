@@ -40,6 +40,18 @@ class AuthService
             return $user->toArray();
         }
 
+        $hasNickname = ForumUser::findFirst([
+            "conditions" => "nickname = :nickname: AND status = :status:",
+            "bind" => [
+                'nickname' => $authUser['nickname'],
+                'status' => 1
+            ],
+            'columns' => '*',
+        ]);
+        if ($hasNickname) {
+            $authUser['nickname'] .= '_' . time();
+        }
+
         /** 注册用户，附初始化值，避免NULL */
         $user = new ForumUser();
         $authUser['sex'] = 0;

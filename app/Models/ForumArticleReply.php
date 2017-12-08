@@ -26,7 +26,7 @@ class ForumArticleReply extends BaseModel
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $reply_id;
+    public $at_user;
 
     /**
      *

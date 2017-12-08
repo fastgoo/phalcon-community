@@ -65,11 +65,11 @@
             {% if reply.count() > 0 %}
                 {% for index, item in reply %}
 
-                    <li data-id="{{ item.id }}" class="jieda-daan">
+                    <li id="hash-{{ item.id }}" class="jieda-daan">
                         <a name="item-{{ item.created_time }}"></a>
                         <div class="detail-about detail-about-reply">
-                            <a class="fly-avatar" href="">
-                                <img src="{{ item.userInfo.head_img }}" alt="{{ item.userInfo.nickname }}">
+                            <a class="fly-avatar">
+                                <img src="{{ item.userInfo.head_img }}">
                             </a>
                             <div class="fly-detail-user">
                                 <a href="" class="fly-link">
@@ -110,8 +110,11 @@
                         <i class="iconfont icon-zan"></i>
                             <em>{{ item.praise_nums }}</em>
                       </span>
-                            <span type="reply" class="_reply">
+                            {% if item.userInfo.id != local_user['id'] %}
+                            <span type="reply" class="_reply" data-id="{{ item.id }}"
+                                  data-nickname="{{ item.userInfo.nickname }}" data-user_id="{{ item.userInfo.id }}">
                         <i class="iconfont icon-svgmoban53"></i>回复
+                                {% endif %}
                     </span>
                             <div class="jieda-admin">
                                 <?php  if($article->tag_name == '求助' && !$article->adoption_reply_id &&
@@ -134,7 +137,6 @@
         <div class="layui-form layui-form-pane">
             <form action="/forum/reply/save" method="post">
                 <input type="hidden" name="article_id" value="{{ article.id }}">
-                <input type="hidden" name="reply_id" value="0">
                 <div class="layui-form-item layui-form-text">
                     <a name="comment"></a>
                     <div class="layui-input-block">
@@ -143,8 +145,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <input type="hidden" name="jid" value="123">
-                    <button class="layui-btn" lay-filter="*" lay-submit>提交回复</button>
+                    <button class="layui-btn" lay-filter="reply" lay-submit alert="回复成功">提交回复</button>
                 </div>
             </form>
         </div>

@@ -17,7 +17,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         , device = layui.device()
 
         , DISABLED = 'layui-btn-disabled';
-
     //阻止IE7以下访问
     if (device.ie && device.ie < 8) {
         layer.alert('如果您非得使用 IE 浏览器访问Fly社区，那么请使用 IE8+');
@@ -263,8 +262,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             content = fly.escape(content || '') //XSS
                 .replace(/img\[([^\s]+?)\]/g, function (img) {  //转义图片
                     return '<img src="' + img.replace(/(^img\[)|(\]$)/g, '') + '">';
-                }).replace(/@(\S+)(\s+?|$)/g, '@<a href="javascript:;" class="fly-aite">$1</a>$2') //转义@
-                .replace(/face\[([^\s\[\]]+?)\]/g, function (face) {  //转义表情
+                }).replace(/face\[([^\s\[\]]+?)\]/g, function (face) {  //转义表情
                     var alt = face.replace(/^face/g, '');
                     return '<img alt="' + alt + '" title="' + alt + '" src="' + fly.faces[alt] + '">';
                 }).replace(/a\([\s\S]+?\)\[[\s\S]*?\]/g, function (str) { //转义链接
@@ -537,19 +535,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         fly.activate($(this).attr('email'));
     });
 
-    //点击@
-    $('body').on('click', '.fly-aite', function () {
-        var othis = $(this), text = othis.text();
-        if (othis.attr('href') !== 'javascript:;') {
-            return;
-        }
-        text = text.replace(/^@|（[\s\S]+?）/g, '');
-        othis.attr({
-            href: '/jump?username=' + text
-            , target: '_blank'
-        });
-    });
-
     //表单提交
     form.on('submit(*)', function (data) {
         var action = $(data.form).attr('action'), button = $(data.elem);
@@ -563,8 +548,9 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 } else {
                     fly.form[action || button.attr('key')](data.field, data.form);
                 }
+
             };
-            if (res.status == 0) {
+            if (res.code == 0) {
                 button.attr('alert') ? layer.alert(res.msg, {
                     icon: 1,
                     time: 10 * 1000,
@@ -646,8 +632,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                     location.href = '/forum/article/add';
                 } else {
                     //layer.msg('请先登录');
-                    //$('.login-header').click();
-                    location.href = '/forum/article/add';
+                    $('.login-header').click();
+                    //location.href = '/forum/article/add';
                 }
             }
         }
@@ -688,6 +674,19 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         });
     });
 
+    //点击@
+    $('body').on('click', '.fly-aite', function () {
+        var othis = $(this), text = othis.text();
+        if (othis.attr('href') !== 'javascript:;') {
+            return;
+        }
+        text = text.replace(/^@|（[\s\S]+?）/g, '');
+        othis.attr({
+            href: '/user/home/detail?nickname=' + text
+            , target: '_blank'
+        });
+    });
+
     $(".jieda-accept").on("click", function () {
         var reply_id = $(this).data('id');
 
@@ -701,6 +700,30 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             });
             layer.close(index);
         });
+    });
+    $("._reply").on("click", function () {
+        $("textarea[name='html_content']").val('@' + $(this).data('nickname') + ' ' + $("textarea[name='html_content']").val());
+    })
+
+    form.on('submit(reply)', function (data) {
+        var action = $(data.form).attr('action'), button = $(data.elem);
+        if (data.field.html_content) {
+            data.field.html_content = fly.content(data.field.html_content);
+        }
+        fly.json(action, data.field, function (res) {
+            var end = function () {
+                location.reload();
+            };
+            if (res.code == 1) {
+                button.attr('alert') ? layer.alert(res.msg, {
+                    icon: 1,
+                    time: 3 * 1000,
+                    end: end
+                }) : end();
+            }
+            ;
+        });
+        return false;
     });
 
 
