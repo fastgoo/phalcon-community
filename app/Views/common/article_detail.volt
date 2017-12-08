@@ -105,8 +105,8 @@
                         AND reply_id = :reply_id:","bind" => ['user_id' => $local_user['id'],'reply_id' =>
                         $item->id]]);?>
                         <div class="jieda-reply">
-                      <span class="jieda-zan<?php echo !empty($has_zan->id) ? ' zanok' : '' ;?>" type="zan"
-                            data-status="<?php echo !empty($has_zan->id) ? 1 : 0 ;?>" data-id="{{ item.id }}">
+                      <span class="jieda-zan{{ has_zan ? ' zanok' : '' }}" type="zan"
+                            data-status="{{ has_zan ? 1: 0 }}" data-id="{{ item.id }}">
                         <i class="iconfont icon-zan"></i>
                             <em>{{ item.praise_nums }}</em>
                       </span>
@@ -118,7 +118,7 @@
                     </span>
                             <div class="jieda-admin">
                                 <?php  if($article->tag_name == '求助' && !$article->adoption_reply_id &&
-                                $article->user_id == $local_user['id']){?>
+                                $article->user_id == $local_user['id'] && $item->user_id != $local_user['id']){?>
                                 <span class="jieda-accept" type="accept" data-id="{{ item.id }}">采纳</span>
                                 <?php }?>
                                 {#<span type="edit">编辑</span>#}

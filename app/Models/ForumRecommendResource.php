@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ForumRecommandResource extends BaseModel
+class ForumRecommendResource extends BaseModel
 {
 
     /**
@@ -64,7 +64,7 @@ class ForumRecommandResource extends BaseModel
      */
     public function getSource()
     {
-        return 'forum_recommand_resource';
+        return 'forum_recommend_resource';
     }
 
     /**

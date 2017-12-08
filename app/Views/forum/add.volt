@@ -83,7 +83,7 @@
                             <input type="hidden" id="securityToken" name="{{ this.security.getTokenKey() }}"
                                    value="{{ this.security.getToken() }}"/>
                             <div class="layui-form-item">
-                                <button class="layui-btn" lay-filter="*" lay-submit>立即发布</button>
+                                <button class="layui-btn" lay-filter="article-publish" lay-submit>立即发布</button>
                             </div>
                         </form>
                     </div>
@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<script src="/app/layui/layui.js"></script>
+<script src="/app/layui/layui.all.js"></script>
 <script>
     layui.cache.page = '';
     layui.cache.user = {

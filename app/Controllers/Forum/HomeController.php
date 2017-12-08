@@ -10,6 +10,11 @@ namespace App\Controllers\Forum;
 
 use App\Controllers\BaseController;
 use App\Models\ForumArticleInfo;
+use App\Services\AdvertisingService;
+use App\Services\ArticleInfoService;
+use App\Services\CoopLinkService;
+use App\Services\RecommendResourceService;
+use App\Services\ReplyService;
 
 class HomeController extends BaseController
 {
@@ -19,6 +24,11 @@ class HomeController extends BaseController
     public function initialize()
     {
         $this->view->header_choose_type = "forum";
+        $this->view->recommend_resource = RecommendResourceService::getRecommendData();
+        $this->view->reply_rank = ReplyService::getRank();
+        $this->view->hot_article = ArticleInfoService::getHotData();
+        $this->view->advertsing = AdvertisingService::getAdvData();
+        $this->view->coop_link = CoopLinkService::getCoopData();
     }
 
     public function indexAction($tag = 0)

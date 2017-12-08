@@ -95,11 +95,11 @@ return new \Phalcon\Config([
             'title' => '社区',
             'url' => '/forum/home/index',
         ],
-        'news' => [
+        /*'news' => [
             'icon' => '&#xe756;',
             'title' => '资讯',
             'url' => '/news/home/index',
-        ],
+        ],*/
         'doc' => [
             'icon' => '&#xe705;',
             'title' => '文档',

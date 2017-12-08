@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Models\ForumArticleReply;
+use App\Models\ForumUser;
 
 class ReplyService
 {
@@ -47,6 +48,31 @@ class ReplyService
             'max_page' => (int)ceil($count / $page_nums),
             'data' => $data,
         ];
+    }
+
+    public static function getRank()
+    {
+        $data = ForumArticleReply::find([
+            'conditions' => 'status = :status: AND created_time >= :time:',
+            'columns' => 'COUNT(*) AS reply_nums, user_id',
+            'bind' => ['status' => 1, 'time' => time() - 3600 * 24 * 7],
+            'order' => 'reply_nums DESC, id ASC',
+            "group" => "user_id",
+            "limit" => 12,
+            'cache' => ["lifetime" => 3600, "key" => "reply-rank"]
+            //]);
+        ])->toArray();
+
+        if ($data) {
+            foreach ($data as $index => &$item) {
+                $item['userInfo'] = ForumUser::findFirst([
+                    'conditions' => 'id = :user_id: AND status = :status:',
+                    'columns' => 'id,nickname,head_img',
+                    'bind' => ['status' => 1, 'user_id' => $item['user_id']],
+                ])->toArray();
+            }
+        }
+        return $data;
     }
 
 

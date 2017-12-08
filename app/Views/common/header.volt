@@ -1,6 +1,6 @@
 <div class="fly-header layui-bg-black">
     <div class="layui-container">
-        <a class="fly-logo" href="javascript:;">
+        <a class="fly-logo" href="/forum/home/index">
             <img src="/app/images/logo.png" alt="layui" height="40">
         </a>
         <ul class="layui-nav fly-nav layui-hide-xs">
@@ -32,8 +32,7 @@
                         <dd><a href="user/home.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
                         </dd>
                         <hr style="margin: 5px 0;">
-                        <dd><a onclick="location.href = '/auth/login_out/index?redirectUrl='+window.location.href"
-                               style="text-align: center;">退出</a></dd>
+                        <dd><a id="loginout" style="text-align: center;">退出</a></dd>
                     </dl>
                 </li>
             {% else %}

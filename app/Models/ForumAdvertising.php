@@ -37,6 +37,13 @@ class ForumAdvertising extends BaseModel
 
     /**
      *
+     * @var string
+     * @Column(type="string", length=200, nullable=false)
+     */
+    public $url;
+
+    /**
+     *
      * @var integer
      * @Column(type="integer", length=4, nullable=false)
      */

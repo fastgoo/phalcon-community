@@ -43,7 +43,7 @@
             {{ partial("common/recommend",['status': true]) }}
 
             {#签到模块#}
-            {{ partial("common/sign",['status': true]) }}
+            {#{{ partial("common/sign",['status': true]) }}#}
 
             {#回复周排行榜#}
             {{ partial("common/reply_rank",['status': true]) }}

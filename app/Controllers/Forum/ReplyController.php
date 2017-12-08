@@ -46,18 +46,37 @@ class ReplyController extends BaseController
                 'reply_id' => $reply_id,
             ],
         ]);
+        $replyInfoModel = ForumArticleReply::findFirst([
+            "conditions" => "id = :reply_id: AND status = :status:",
+            "bind" => [
+                'status' => 1,
+                'reply_id' => $reply_id,
+            ],
+        ]);
         if ($replyPraiseModel) {
             output_data(-1, '你已经点过赞了');
         }
         $replyPraiseModel = new ForumArticleReplyPraise();
-        $replyPraiseModel->user_id = $this->user['id'];
-        $replyPraiseModel->article_id = $article_id;
-        $replyPraiseModel->reply_id = $reply_id;
-        $replyPraiseModel->created_time = time();
-        if ($replyPraiseModel->save()) {
+        $this->db->begin();
+        try {
+            $replyPraiseModel->user_id = $this->user['id'];
+            $replyPraiseModel->article_id = $article_id;
+            $replyPraiseModel->reply_id = $reply_id;
+            $replyPraiseModel->created_time = time();
+            if (!$replyPraiseModel->save()) {
+                throw new \Exception("点赞失败", -1);
+            }
+            $replyInfoModel->praise_nums += 1;
+            $replyInfoModel->updated_time = time();
+            if (!$replyInfoModel->save()) {
+                throw new \Exception("点赞失败", -1);
+            }
+            $this->db->commit();
             output_data(1, '点赞成功！');
+        } catch (\Exception $exception) {
+            $this->db->rollback();
+            output_data($exception->getCode(), $exception->getMessage());
         }
-        output_data(1, '点赞失败 - -!');
     }
 
     /**
@@ -157,9 +176,9 @@ class ReplyController extends BaseController
 
         /** 转化@用户名 */
         if (preg_match_all('%@\w+%u', $content, $matches)) {
-            if ($matches) {
-                foreach ($matches as $key => $val) {
-                    $nickname = mb_substr($val[0], 1);
+            if (!empty($matches[0])) {
+                foreach ($matches[0] as $key => $val) {
+                    $nickname = mb_substr($val, 1);
                     $userInfo = ForumUser::findFirst([
                         "conditions" => "nickname LIKE :nickname: AND status = :status:",
                         "bind" => [

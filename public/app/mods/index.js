@@ -638,19 +638,21 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             }
         }
     });
-
-    //总页数大于页码总数
-    layui.laypage.render({
-        elem: 'pagination'
-        , count: $("#page_count").val()
-        , limit: 15
-        , curr: $("#current_page").val()
-        , jump: function (obj) {
-            if (obj.curr != $("#current_page").val()) {
-                location.href = $("#page_link").val() + obj.curr + (obj.curr > 1 ? '#flyReply' : '')
+    if ($("#page_count").val() > 0) {
+        //总页数大于页码总数
+        layui.laypage.render({
+            elem: 'pagination'
+            , count: $("#page_count").val()
+            , limit: 15
+            , curr: $("#current_page").val()
+            , jump: function (obj) {
+                if (obj.curr != $("#current_page").val()) {
+                    location.href = $("#page_link").val() + obj.curr + (obj.curr > 1 ? '#flyReply' : '')
+                }
             }
-        }
-    });
+        });
+    }
+
 
     $(".jieda-zan").on("click", function () {
         var status = $(this).data('status')
@@ -658,32 +660,21 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         if (status) {
             return;
         }
-
+        var that = $(this);
         fly.json('/forum/reply/doPraise', {
             reply_id: reply_id,
             article_id: $("input[name='article_id']").val()
         }, function (res) {
             if (res.code == 1) {
                 layer.msg(res.msg);
-                $(this).addClass('zanok');
+                that.addClass('zanok');
+                that.find("em").text(parseInt(that.find("em").text()) + 1);
+                that.data('status', '1');
             }
         }, {
             error: function () {
                 //$(this).removeClass('zanok');
             }
-        });
-    });
-
-    //点击@
-    $('body').on('click', '.fly-aite', function () {
-        var othis = $(this), text = othis.text();
-        if (othis.attr('href') !== 'javascript:;') {
-            return;
-        }
-        text = text.replace(/^@|（[\s\S]+?）/g, '');
-        othis.attr({
-            href: '/user/home/detail?nickname=' + text
-            , target: '_blank'
         });
     });
 
@@ -695,8 +686,12 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 reply_id: reply_id,
                 article_id: $("input[name='article_id']").val()
             }, function (res) {
-                layer.msg('点赞成功！');
-                $(this).addClass('zanok');
+                layer.msg('设置成功，最佳答案将有限显示在第一条', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+
+                });
             });
             layer.close(index);
         });
@@ -725,6 +720,34 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         });
         return false;
     });
+
+    form.on('submit(article-publish)', function (data) {
+        var action = $(data.form).attr('action'), button = $(data.elem);
+        if (data.field.html_content) {
+            data.field.html_content = fly.content(data.field.html_content);
+        }
+        fly.json(action, data.field, function (res) {
+            var end = function () {
+                location.reload();
+            };
+            if (res.code == 1) {
+                layer.msg('发布成功，即将跳转到首页', {
+                    icon: 1,
+                    time: 3000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.href = '/forum/home/index'
+                });
+            }
+            ;
+        });
+        return false;
+    });
+    $("#loginout").on("click", function () {
+        layer.confirm('是否确认退出当前账号', {icon: 3, title: '提示'}, function (index) {
+            location.href = '/auth/login_out/index?redirectUrl=' + window.location.href
+            layer.close(index);
+        });
+    })
 
 
     exports('fly', fly);
