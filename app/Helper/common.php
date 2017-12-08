@@ -104,6 +104,38 @@ if (!function_exists('setQuestionVerify')) {
     }
 }
 
+if (!function_exists('curlUploadFile')) {
+    # $data = array('img' => '@' . dirname(__FILE__) . '/img/1.jpg');
+    function curlUploadFile(Array $data)
+    {
+        var_dump($data);exit;
+        header('content-type:text/html;charset=utf8');
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, Phalcon\Di::getDefault()->get('config')->application->baseUri . '/base.api/file/upload');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        var_dump($result);exit;
+    }
+}
+if (!function_exists('curlDownloadFile')) {
+    function curlDownloadFile($url, $path = BASE_PATH . '/public/app/images/')
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        $file = curl_exec($ch);
+        curl_close($ch);
+        $filename = pathinfo($url, PATHINFO_BASENAME);
+        $resource = fopen($path . $filename, 'a');
+        fwrite($resource, $file);
+        fclose($resource);
+    }
+}
+
 if (!function_exists('time_compute')) {
     function timeCompute($timeStart)
     {

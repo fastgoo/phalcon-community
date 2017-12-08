@@ -69,7 +69,8 @@ class ReplyService
                     'conditions' => 'id = :user_id: AND status = :status:',
                     'columns' => 'id,nickname,head_img',
                     'bind' => ['status' => 1, 'user_id' => $item['user_id']],
-                ])->toArray();
+                ]);
+                $item['userInfo'] && $item['userInfo'] = $item['userInfo']->toArray();
             }
         }
         return $data;

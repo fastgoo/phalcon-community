@@ -52,6 +52,7 @@ class AuthService
             $authUser['nickname'] .= '_' . time();
         }
 
+
         /** 注册用户，附初始化值，避免NULL */
         $user = new ForumUser();
         $authUser['sex'] = 0;
@@ -66,6 +67,4 @@ class AuthService
         }
         return false;
     }
-
-
 }
