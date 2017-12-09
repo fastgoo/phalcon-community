@@ -14,9 +14,6 @@ class BaseController extends Controller
         //$this->user = $this->session->get('user') ?: ForumUser::findFirst('id = 3 AND status = 1')->toArray();
         $this->user = $this->session->get('user');
         $this->view->local_user = $this->user;
-
-        AuthService::downImage();
-
     }
 
     /**
