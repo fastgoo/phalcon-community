@@ -62,12 +62,16 @@ class AuthService
         $authUser['status'] = 1;
         $authUser['created_time'] = time();
         $authUser['updated_time'] = time();
-        if (strpos($authUser['head_img'], 'https://') === false) {
+        $path = self::downImage($authUser['head_img']);
+        $res = self::uploadImage($path);
+        @unlink($path);
+        $authUser['head_img'] = $res['data']['url'];
+        /*if (strpos($authUser['head_img'], 'https://') === false) {
             $path = self::downImage($authUser['head_img']);
             $res = self::uploadImage($path);
             @unlink($path);
             $authUser['head_img'] = $res['data']['url'];
-        }
+        }*/
         if ($user->save($authUser)) {
             return $user->toArray();
         }
@@ -103,7 +107,7 @@ class AuthService
         $client = new HttpClient(['timeout' => 10.0,]);
         $body = fopen($path, 'r');
         $r = $client->request('POST', Di::getDefault()->get('config')->application->baseUri . '/base.api/file/upload', [
-        //$r = $client->request('POST', 'https://phalcon.fastgoo.net/base.api/file/upload', [
+            //$r = $client->request('POST', 'https://phalcon.fastgoo.net/base.api/file/upload', [
             'multipart' => [[
                 'name' => 'file_name',
                 'contents' => $body
