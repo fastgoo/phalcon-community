@@ -511,7 +511,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                     if (val.replace(/\s/g, '') === '') {
                         return false;
                     }
-                    input.val('site:layui.com ' + input.val());
+                    input.val('site:phalcon.fastgoo.net ' + input.val());
                 });
             }
         })
@@ -624,10 +624,11 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
 
     //固定Bar
     util.fixbar({
-        bar1: '&#xe642;'
+        bar2: '&#xe642;'
+        , bar1: '&#xe615;'
         , bgcolor: '#5d6477'
         , click: function (type) {
-            if (type === 'bar1') {
+            if (type === 'bar2') {
                 if ($("#local_user").val() == 1) {
                     location.href = '/forum/article/add';
                 } else {
@@ -635,6 +636,31 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                     $('.login-header').click();
                     //location.href = '/forum/article/add';
                 }
+            }else if(type === 'bar1'){
+                layer.open({
+                    type: 1
+                    , title: false
+                    , closeBtn: false
+                    //,shade: [0.1, '#fff']
+                    , shadeClose: true
+                    , maxWidth: 10000
+                    , skin: 'fly-layer-search'
+                    , content: ['<form action="http://cn.bing.com/search">'
+                        , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q">'
+                        , '</form>'].join('')
+                    , success: function (layero) {
+                        var input = layero.find('input');
+                        input.focus();
+
+                        layero.find('form').submit(function () {
+                            var val = input.val();
+                            if (val.replace(/\s/g, '') === '') {
+                                return false;
+                            }
+                            input.val('site:phalcon.fastgoo.net ' + input.val());
+                        });
+                    }
+                })
             }
         }
     });

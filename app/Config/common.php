@@ -14,7 +14,7 @@ return new \Phalcon\Config([
         'accessKey' => 'IdL1wiByfNrlNHvRjOE1EoH9CljdnwS4NQYd9NYC',
         'secretKey' => 'gy3_H3ABF2Jj_vm9B4PnUV5SREEAxk0Q3ObQmuaR',
         'bucket' => 'fastgoo',
-        'url' => 'http://opb1hhqzs.bkt.clouddn.com',
+        'url' => 'https://resource.fastgoo.net',
     ],
     /**
      * 授权认证器配置
