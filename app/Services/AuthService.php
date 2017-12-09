@@ -102,8 +102,8 @@ class AuthService
     {
         $client = new HttpClient(['timeout' => 10.0,]);
         $body = fopen($path, 'r');
-        //$r = $client->request('POST', Di::getDefault()->get('config')->application->baseUri . '/base.api/file/upload', [
-        $r = $client->request('POST', 'https://admin.fastgoo.net/public/upload/file', [
+        $r = $client->request('POST', Di::getDefault()->get('config')->application->baseUri . '/base.api/file/upload', [
+        //$r = $client->request('POST', 'https://admin.fastgoo.net/public/upload/file', [
             'multipart' => [[
                 'name' => 'file_name',
                 'contents' => $body
