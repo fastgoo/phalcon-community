@@ -20,7 +20,7 @@
                 </a>
                 <span>发布于: <?php echo timeCompute($item->created_time) ;?></span>
 
-                <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻" style="color: #999">
+                <span class="fly-list-kiss layui-hide-xs" title="查看数量" style="color: #999">
                     <i class="iconfont" title="人气">&#xe60b;</i> {{ item.view_nums }}
                 </span>
                 <span class="fly-list-nums">

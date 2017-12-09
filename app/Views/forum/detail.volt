@@ -24,6 +24,7 @@
         {{ partial("common/article_detail",['links': '123']) }}
         <div class="layui-col-md4">
 
+            {{ partial("common/article_detail_user") }}
             {#推荐资源链接#}
             {{ partial("common/recommend",['status': true]) }}
 

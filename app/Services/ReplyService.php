@@ -26,7 +26,7 @@ class ReplyService
      */
     public function getArticleReply($article_id, $page, $page_nums)
     {
-        $conditions = "status = :status: AND article_id = :article_id:";
+        $conditions = "article_id = :article_id: AND status = :status:";
         $bind = ['status' => 1, 'article_id' => $article_id];
         $data = ForumArticleReply::find([
             "conditions" => $conditions,

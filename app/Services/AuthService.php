@@ -41,10 +41,9 @@ class AuthService
         }
 
         $hasNickname = ForumUser::findFirst([
-            "conditions" => "nickname = :nickname: AND status = :status:",
+            "conditions" => "nickname = :nickname:",
             "bind" => [
-                'nickname' => $authUser['nickname'],
-                'status' => 1
+                'nickname' => $authUser['nickname']
             ],
             'columns' => '*',
         ]);
