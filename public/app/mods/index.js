@@ -636,7 +636,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                     $('.login-header').click();
                     //location.href = '/forum/article/add';
                 }
-            }else if(type === 'bar1'){
+            } else if (type === 'bar1') {
                 layer.open({
                     type: 1
                     , title: false
@@ -664,6 +664,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             }
         }
     });
+
+    /** 分页栏初始化 */
     if ($("#page_count").val() > 0) {
         //总页数大于页码总数
         layui.laypage.render({
@@ -673,13 +675,19 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             , curr: $("#current_page").val()
             , jump: function (obj) {
                 if (obj.curr != $("#current_page").val()) {
-                    location.href = $("#page_link").val() + obj.curr + (obj.curr > 1 ? '#flyReply' : '')
+                    /** 对回复列表进行分页定位 */
+                    if ($("body").find("#flyReply").html()) {
+                        location.href = $("#page_link").val() + obj.curr + (obj.curr > 1 ? '#flyReply' : '')
+                    } else {
+                        location.href = $("#page_link").val() + obj.curr;
+                    }
+
                 }
             }
         });
     }
 
-
+    /** 点赞接口操作 */
     $(".jieda-zan").on("click", function () {
         var status = $(this).data('status')
             , reply_id = $(this).data('id');
@@ -704,6 +712,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         });
     });
 
+    /** 设置为最佳答案操作方法 */
     $(".jieda-accept").on("click", function () {
         var reply_id = $(this).data('id');
 
@@ -722,10 +731,13 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             layer.close(index);
         });
     });
+
+    /** 点击回复用户写入@用户昵称 */
     $("._reply").on("click", function () {
         $("textarea[name='html_content']").val('@' + $(this).data('nickname') + ' ' + $("textarea[name='html_content']").val());
-    })
+    });
 
+    /** 回复消息接口操作方法 */
     form.on('submit(reply)', function (data) {
         var action = $(data.form).attr('action'), button = $(data.elem);
         if (data.field.html_content) {
@@ -746,7 +758,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         });
         return false;
     });
-
+    /** 发布文章接口操作方法 */
     form.on('submit(article-publish)', function (data) {
         var action = $(data.form).attr('action'), button = $(data.elem);
         if (data.field.html_content) {
@@ -768,13 +780,62 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         });
         return false;
     });
+    /** 退出登录跳转方法 */
     $("#loginout").on("click", function () {
         layer.confirm('是否确认退出当前账号', {icon: 3, title: '提示'}, function (index) {
             location.href = '/auth/login_out/index?redirectUrl=' + window.location.href
             layer.close(index);
         });
     })
+    /** 关注用户接口操作方法 */
+    $("#attention_user").on("click", function () {
+        var user_id = $(this).data('user_id');
+        var that = $(this);
+        fly.json('/user/attention/setAttention', {
+            user_id: user_id
+        }, function (res) {
+            if (res.data.status == 1) {
+                that.text('取消关注');
+            } else {
+                that.text('关注用户');
+            }
+        });
+    });
+    /** 收藏文章接口操作方法 */
+    $("#collection_article").on("click", function () {
+        var article_id = $(this).data('article_id');
+        var that = $(this);
+        fly.json('/user/collection/setCollection', {
+            article_id: article_id
+        }, function (res) {
+            if (res.data.status == 1) {
+                that.text('取消收藏');
+            } else {
+                that.text('收藏文章');
+            }
+        });
+    });
 
+    /** 用户如果登录，同时可以获取到关注用户、收藏文章的data那么就会调接口 */
+    if ($("#local_user").val() == 1) {
+        var collection_article_id = $("#collection_article").data('article_id');
+        var attention_user_id = $("#attention_user").data('user_id');
+        if (collection_article_id || attention_user_id) {
+            fly.json('/user/attention/getAttentionCollection', {
+                article_id: collection_article_id,
+                user_id: attention_user_id,
+            }, function (res) {
+                if (res.data.attention == 1) {
+                    $("#attention_user").text('取消关注');
+                }
+                if (res.data.collection == 1) {
+                    $("#collection_article").text('取消收藏');
+                }
+            }, {
+                type: 'get'
+            });
+        }
+    }
 
     exports('fly', fly);
 

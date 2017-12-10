@@ -16,6 +16,7 @@ $modules = [
     'news' => 'News',
     'forum' => 'Forum',
     'auth' => 'Auth',
+    'user' => 'User',
 ];
 
 
