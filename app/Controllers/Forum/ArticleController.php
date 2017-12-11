@@ -55,10 +55,6 @@ class ArticleController extends BaseController
         $article->format_time = timeCompute($article->created_time);
         $article->tag_name = $tags[$article->tag];
         $this->view->article = $article;
-<<<<<<< HEAD
-        $this->display('/forum/detail',$article);
-        //$this->view->render("forum", "detail");
-=======
         $replyService = new ReplyService();
         $replyList = $replyService->getArticleReply($id, $page, $nums);
         $this->view->reply = $replyList['data'];
@@ -75,7 +71,6 @@ class ArticleController extends BaseController
         $this->view->advertsing = AdvertisingService::getAdvData();
         $this->view->coop_link = CoopLinkService::getCoopData();
         $this->view->render("forum", "detail");
->>>>>>> master
     }
 
     /**

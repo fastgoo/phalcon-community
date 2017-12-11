@@ -8,15 +8,9 @@ use Phalcon\Mvc\Controller;
 class BaseController extends Controller {
     public $user;
 
-<<<<<<< HEAD
     public function onConstruct() {
-        $this->user             = $this->session->get('user');
-=======
-    public function onConstruct()
-    {
         //$this->user = $this->session->get('user') ?: ForumUser::findFirst('id = 3 AND status = 1')->toArray();
-        $this->user = $this->session->get('user');
->>>>>>> master
+        $this->user             = $this->session->get('user');
         $this->view->local_user = $this->user;
     }
 
@@ -58,5 +52,4 @@ class BaseController extends Controller {
         }
         $this->view->render($this->dispatcher->getControllerName(), $this->dispatcher->getActionName(), $this->view->getParams());
     }
-
 }
