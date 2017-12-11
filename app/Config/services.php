@@ -9,6 +9,9 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Logger\Adapter\File as FileLogAdapter;
 use Phalcon\Logger;
+use Phalcon\Cache\Frontend\Data as FrontendData;
+use Phalcon\Cache\Backend\Memcache as BackendMemcache;
+use Phalcon\Cache\Backend\Redis as BackendRedis;
 
 /**
  * 注册全局配置
@@ -127,6 +130,19 @@ $di->setShared('db', function () {
 $di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
 });
+
+// 设置模型缓存服务
+$di->set("modelsCache", function () {
+    $frontCache = new FrontendData(["lifetime" => 86400,]);
+    $cache = new BackendRedis($frontCache, [
+        "host" => $this->getConfig()->redis->host,
+        "port" => $this->getConfig()->redis->port,
+        "auth" => $this->getConfig()->redis->auth,
+        "prefix" => $this->getConfig()->redis->prefix
+    ]);
+    return $cache;
+}
+);
 
 /**
  * Register the session flash service with the Twitter Bootstrap classes

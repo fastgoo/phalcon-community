@@ -17,7 +17,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         , device = layui.device()
 
         , DISABLED = 'layui-btn-disabled';
-
     //阻止IE7以下访问
     if (device.ie && device.ie < 8) {
         layer.alert('如果您非得使用 IE 浏览器访问Fly社区，那么请使用 IE8+');
@@ -71,6 +70,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 success: function (res) {
                     if (res.code === 1) {
                         success && success(res);
+                    } else if (res.code === -401) {
+                        $('.login-header').click();
                     } else {
                         layer.msg(res.msg || res.code, {shift: 6});
                         options.error && options.error();
@@ -261,8 +262,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             content = fly.escape(content || '') //XSS
                 .replace(/img\[([^\s]+?)\]/g, function (img) {  //转义图片
                     return '<img src="' + img.replace(/(^img\[)|(\]$)/g, '') + '">';
-                }).replace(/@(\S+)(\s+?|$)/g, '@<a href="javascript:;" class="fly-aite">$1</a>$2') //转义@
-                .replace(/face\[([^\s\[\]]+?)\]/g, function (face) {  //转义表情
+                }).replace(/face\[([^\s\[\]]+?)\]/g, function (face) {  //转义表情
                     var alt = face.replace(/^face/g, '');
                     return '<img alt="' + alt + '" title="' + alt + '" src="' + fly.faces[alt] + '">';
                 }).replace(/a\([\s\S]+?\)\[[\s\S]*?\]/g, function (str) { //转义链接
@@ -511,7 +511,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                     if (val.replace(/\s/g, '') === '') {
                         return false;
                     }
-                    input.val('site:layui.com ' + input.val());
+                    input.val('site:phalcon.fastgoo.net ' + input.val());
                 });
             }
         })
@@ -535,19 +535,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         fly.activate($(this).attr('email'));
     });
 
-    //点击@
-    $('body').on('click', '.fly-aite', function () {
-        var othis = $(this), text = othis.text();
-        if (othis.attr('href') !== 'javascript:;') {
-            return;
-        }
-        text = text.replace(/^@|（[\s\S]+?）/g, '');
-        othis.attr({
-            href: '/jump?username=' + text
-            , target: '_blank'
-        });
-    });
-
     //表单提交
     form.on('submit(*)', function (data) {
         var action = $(data.form).attr('action'), button = $(data.elem);
@@ -561,8 +548,9 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 } else {
                     fly.form[action || button.attr('key')](data.field, data.form);
                 }
+
             };
-            if (res.status == 0) {
+            if (res.code == 0) {
                 button.attr('alert') ? layer.alert(res.msg, {
                     icon: 1,
                     time: 10 * 1000,
@@ -636,20 +624,218 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
 
     //固定Bar
     util.fixbar({
-        bar1: '&#xe642;'
-        , bgcolor: '#009688'
+        bar2: '&#xe642;'
+        , bar1: '&#xe615;'
+        , bgcolor: '#5d6477'
         , click: function (type) {
-            if (type === 'bar1') {
+            if (type === 'bar2') {
                 if ($("#local_user").val() == 1) {
                     location.href = '/forum/article/add';
                 } else {
                     //layer.msg('请先登录');
-                    //$('.login-header').click();
-                    location.href = '/forum/article/add';
+                    $('.login-header').click();
+                    //location.href = '/forum/article/add';
                 }
+            } else if (type === 'bar1') {
+                layer.open({
+                    type: 1
+                    , title: false
+                    , closeBtn: false
+                    //,shade: [0.1, '#fff']
+                    , shadeClose: true
+                    , maxWidth: 10000
+                    , skin: 'fly-layer-search'
+                    , content: ['<form action="http://cn.bing.com/search">'
+                        , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q">'
+                        , '</form>'].join('')
+                    , success: function (layero) {
+                        var input = layero.find('input');
+                        input.focus();
+
+                        layero.find('form').submit(function () {
+                            var val = input.val();
+                            if (val.replace(/\s/g, '') === '') {
+                                return false;
+                            }
+                            input.val('site:phalcon.fastgoo.net ' + input.val());
+                        });
+                    }
+                })
             }
         }
     });
+
+    /** 分页栏初始化 */
+    if ($("#page_count").val() > 0) {
+        //总页数大于页码总数
+        layui.laypage.render({
+            elem: 'pagination'
+            , count: $("#page_count").val()
+            , limit: 15
+            , curr: $("#current_page").val()
+            , jump: function (obj) {
+                if (obj.curr != $("#current_page").val()) {
+                    /** 对回复列表进行分页定位 */
+                    if ($("body").find("#flyReply").html()) {
+                        location.href = $("#page_link").val() + obj.curr + (obj.curr > 1 ? '#flyReply' : '')
+                    } else {
+                        location.href = $("#page_link").val() + obj.curr;
+                    }
+
+                }
+            }
+        });
+    }
+
+    /** 点赞接口操作 */
+    $(".jieda-zan").on("click", function () {
+        var status = $(this).data('status')
+            , reply_id = $(this).data('id');
+        if (status) {
+            return;
+        }
+        var that = $(this);
+        fly.json('/forum/reply/doPraise', {
+            reply_id: reply_id,
+            article_id: $("input[name='article_id']").val()
+        }, function (res) {
+            if (res.code == 1) {
+                layer.msg(res.msg);
+                that.addClass('zanok');
+                that.find("em").text(parseInt(that.find("em").text()) + 1);
+                that.data('status', '1');
+            }
+        }, {
+            error: function () {
+                //$(this).removeClass('zanok');
+            }
+        });
+    });
+
+    /** 设置为最佳答案操作方法 */
+    $(".jieda-accept").on("click", function () {
+        var reply_id = $(this).data('id');
+
+        layer.confirm('设为最佳答案？', {icon: 3, title: '提示'}, function (index) {
+            fly.json('/forum/reply/chooseAnswer', {
+                reply_id: reply_id,
+                article_id: $("input[name='article_id']").val()
+            }, function (res) {
+                layer.msg('设置成功，最佳答案将有限显示在第一条', {
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+
+                });
+            });
+            layer.close(index);
+        });
+    });
+
+    /** 点击回复用户写入@用户昵称 */
+    $("._reply").on("click", function () {
+        $("textarea[name='html_content']").val('@' + $(this).data('nickname') + ' ' + $("textarea[name='html_content']").val());
+    });
+
+    /** 回复消息接口操作方法 */
+    form.on('submit(reply)', function (data) {
+        var action = $(data.form).attr('action'), button = $(data.elem);
+        if (data.field.html_content) {
+            data.field.html_content = fly.content(data.field.html_content);
+        }
+        fly.json(action, data.field, function (res) {
+            var end = function () {
+                location.reload();
+            };
+            if (res.code == 1) {
+                button.attr('alert') ? layer.alert(res.msg, {
+                    icon: 1,
+                    time: 3 * 1000,
+                    end: end
+                }) : end();
+            }
+            ;
+        });
+        return false;
+    });
+    /** 发布文章接口操作方法 */
+    form.on('submit(article-publish)', function (data) {
+        var action = $(data.form).attr('action'), button = $(data.elem);
+        if (data.field.html_content) {
+            data.field.html_content = fly.content(data.field.html_content);
+        }
+        fly.json(action, data.field, function (res) {
+            var end = function () {
+                location.reload();
+            };
+            if (res.code == 1) {
+                layer.msg('发布成功，即将跳转到首页', {
+                    icon: 1,
+                    time: 3000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    location.href = '/forum/home/index'
+                });
+            }
+            ;
+        });
+        return false;
+    });
+    /** 退出登录跳转方法 */
+    $("#loginout").on("click", function () {
+        layer.confirm('是否确认退出当前账号', {icon: 3, title: '提示'}, function (index) {
+            location.href = '/auth/login_out/index?redirectUrl=' + window.location.href
+            layer.close(index);
+        });
+    })
+    /** 关注用户接口操作方法 */
+    $("#attention_user").on("click", function () {
+        var user_id = $(this).data('user_id');
+        var that = $(this);
+        fly.json('/user/attention/setAttention', {
+            user_id: user_id
+        }, function (res) {
+            if (res.data.status == 1) {
+                that.text('取消关注');
+            } else {
+                that.text('关注用户');
+            }
+        });
+    });
+    /** 收藏文章接口操作方法 */
+    $("#collection_article").on("click", function () {
+        var article_id = $(this).data('article_id');
+        var that = $(this);
+        fly.json('/user/collection/setCollection', {
+            article_id: article_id
+        }, function (res) {
+            if (res.data.status == 1) {
+                that.text('取消收藏');
+            } else {
+                that.text('收藏文章');
+            }
+        });
+    });
+
+    /** 用户如果登录，同时可以获取到关注用户、收藏文章的data那么就会调接口 */
+    if ($("#local_user").val() == 1) {
+        var collection_article_id = $("#collection_article").data('article_id');
+        var attention_user_id = $("#attention_user").data('user_id');
+        if (collection_article_id || attention_user_id) {
+            fly.json('/user/attention/getAttentionCollection', {
+                article_id: collection_article_id,
+                user_id: attention_user_id,
+            }, function (res) {
+                if (res.data.attention == 1) {
+                    $("#attention_user").text('取消关注');
+                }
+                if (res.data.collection == 1) {
+                    $("#collection_article").text('取消收藏');
+                }
+            }, {
+                type: 'get'
+            });
+        }
+    }
 
     exports('fly', fly);
 

@@ -14,7 +14,7 @@ return new \Phalcon\Config([
         'accessKey' => 'IdL1wiByfNrlNHvRjOE1EoH9CljdnwS4NQYd9NYC',
         'secretKey' => 'gy3_H3ABF2Jj_vm9B4PnUV5SREEAxk0Q3ObQmuaR',
         'bucket' => 'fastgoo',
-        'url' => 'http://opb1hhqzs.bkt.clouddn.com',
+        'url' => 'https://resource.fastgoo.net',
     ],
     /**
      * 授权认证器配置
@@ -95,11 +95,11 @@ return new \Phalcon\Config([
             'title' => '社区',
             'url' => '/forum/home/index',
         ],
-        'news' => [
+        /*'news' => [
             'icon' => '&#xe756;',
             'title' => '资讯',
             'url' => '/news/home/index',
-        ],
+        ],*/
         'doc' => [
             'icon' => '&#xe705;',
             'title' => '文档',
@@ -116,5 +116,5 @@ return new \Phalcon\Config([
         3 => ['name' => '分享', 'has_new' => 0,],
         4 => ['name' => '求助', 'has_new' => 0,],
     ],
-    'tags' => ['默认', '分享', '求助'],
+    'tags' => ['动态', '分享', '求助'],
 ]);

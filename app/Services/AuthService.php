@@ -10,7 +10,7 @@ namespace App\Services;
 
 use App\Models\ForumUser;
 use Phalcon\Di;
-
+use GuzzleHttp\Client as HttpClient;
 
 class AuthService
 {
@@ -40,6 +40,18 @@ class AuthService
             return $user->toArray();
         }
 
+        $hasNickname = ForumUser::findFirst([
+            "conditions" => "nickname = :nickname:",
+            "bind" => [
+                'nickname' => $authUser['nickname']
+            ],
+            'columns' => '*',
+        ]);
+        if ($hasNickname) {
+            $authUser['nickname'] .= '_' . time();
+        }
+
+
         /** 注册用户，附初始化值，避免NULL */
         $user = new ForumUser();
         $authUser['sex'] = 0;
@@ -49,11 +61,57 @@ class AuthService
         $authUser['status'] = 1;
         $authUser['created_time'] = time();
         $authUser['updated_time'] = time();
+        $path = self::downImage($authUser['head_img']);
+        $res = self::uploadImage($path);
+        @unlink($path);
+        $authUser['head_img'] = $res['data']['url'];
+        /*if (strpos($authUser['head_img'], 'https://') === false) {
+            $path = self::downImage($authUser['head_img']);
+            $res = self::uploadImage($path);
+            @unlink($path);
+            $authUser['head_img'] = $res['data']['url'];
+        }*/
         if ($user->save($authUser)) {
             return $user->toArray();
         }
         return false;
     }
 
+    public static function downImage($url)
+    {
+        $client = new HttpClient(['timeout' => 10.0,]);
+        $response = $client->get($url);
+        $contentType = $response->getHeader('Content-Type');
+        $typeName = '.jpg';
+        switch ($contentType[0]) {
+            case 'image/jpeg':
+                $typeName = '.jpg';
+                break;
+            case 'image/png':
+                $typeName = '.png';
+                break;
+            case 'image/gif':
+                $typeName = '.gif';
+                break;
+        }
+        $pathName = BASE_PATH . '/public/app/images/' . time() . rand(100, 999) . $typeName;
+        $resource = fopen($pathName, 'a');
+        fwrite($resource, $response->getBody()->getContents());
+        fclose($resource);
+        return $pathName;
+    }
 
+    public static function uploadImage($path)
+    {
+        $client = new HttpClient(['timeout' => 10.0,]);
+        $body = fopen($path, 'r');
+        $r = $client->request('POST', Di::getDefault()->get('config')->application->baseUri . '/base.api/file/upload', [
+            //$r = $client->request('POST', 'https://phalcon.fastgoo.net/base.api/file/upload', [
+            'multipart' => [[
+                'name' => 'file_name',
+                'contents' => $body
+            ]]
+        ]);
+        return json_decode($r->getBody()->getContents(), true);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ForumArticleReply extends BaseModel
+class ForumRecommendResource extends BaseModel
 {
 
     /**
@@ -16,52 +16,24 @@ class ForumArticleReply extends BaseModel
 
     /**
      *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
      */
-    public $article_id;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $at_user;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $user_id;
+    public $title;
 
     /**
      *
      * @var string
      * @Column(type="string", length=500, nullable=false)
      */
-    public $content;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $praise_nums;
+    public $url;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=4, nullable=false)
      */
-    public $is_adoption;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $status;
+    public $sort;
 
     /**
      *
@@ -73,7 +45,7 @@ class ForumArticleReply extends BaseModel
     /**
      *
      * @var integer
-     * @Column(type="integer", length=11, nullable=true)
+     * @Column(type="integer", length=11, nullable=false)
      */
     public $updated_time;
 
@@ -83,12 +55,6 @@ class ForumArticleReply extends BaseModel
     public function initialize()
     {
         $this->setSchema("phalcon-forum");
-        $this->belongsTo(
-            "user_id",
-            "App\\Models\\ForumUser",
-            "id",
-            ['alias' => 'userInfo']
-        );
     }
 
     /**
@@ -98,14 +64,14 @@ class ForumArticleReply extends BaseModel
      */
     public function getSource()
     {
-        return 'forum_article_reply';
+        return 'forum_recommend_resource';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumArticleReply[]|ForumArticleReply|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumRecommandResource[]|ForumRecommandResource|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -116,7 +82,7 @@ class ForumArticleReply extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumArticleReply|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumRecommandResource|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

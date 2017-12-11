@@ -50,11 +50,12 @@ class Qiniu
     {
         $token = $this->auth();
         $uploadMgr = new UploadManager();
-        $name = $fileName ? $fileName : date('YmdHis') . rand(1000, 9999);
         $file = $file ? $file : $_FILES['filedata'];
+        $name = $fileName ? $fileName : date('YmdHis') . rand(1000, 9999);
+        $name .= strstr($file['name'], '.');
         list($ret, $err) = $uploadMgr->putFile($token, $name, $file['tmp_name']);
         if ($err !== null) {
-            throw new \Exception("七牛云文件上传失败(原因): ".$err->message());
+            throw new \Exception("七牛云文件上传失败(原因): " . $err->message());
         }
         return $ret['key'];
     }
@@ -71,7 +72,7 @@ class Qiniu
         $bucketMgr = new BucketManager($auth);
         $err = $bucketMgr->delete($this->config->bucket, $key);
         if ($err !== null) {
-            throw new \Exception("删除七牛云存储文件失败(原因): ".$err->message());
+            throw new \Exception("删除七牛云存储文件失败(原因): " . $err->message());
         }
         return true;
     }

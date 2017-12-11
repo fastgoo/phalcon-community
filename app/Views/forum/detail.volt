@@ -24,11 +24,12 @@
         {{ partial("common/article_detail",['links': '123']) }}
         <div class="layui-col-md4">
 
+            {{ partial("common/article_detail_user") }}
             {#推荐资源链接#}
             {{ partial("common/recommend",['status': true]) }}
 
             {#签到模块#}
-            {{ partial("common/sign",['status': true]) }}
+            {#{{ partial("common/sign",['status': true]) }}#}
 
             {#回复周排行榜#}
             {{ partial("common/reply_rank",['status': true]) }}
@@ -39,7 +40,7 @@
             {#广告#}
             {{ partial("common/advertising",['status': true]) }}
 
-            {#本周热门资讯推荐#}
+            {#友情链接#}
             {{ partial("common/links",['status': true]) }}
         </div>
     </div>
@@ -48,7 +49,7 @@
 {{ partial("common/footer",['links': '123']) }}
 
 
-<script src="/app/layui/layui.js"></script>
+<script src="/app/layui/layui.all.js"></script>
 <script>
     layui.cache.page = '';
     layui.cache.user = {
@@ -60,14 +61,10 @@
     };
     layui.config({
         version: "2.0.0",
-        base:"/app/mods/",
+        base: "/app/mods/",
     }).extend({
         fly: 'index'
-    }).use('fly','face');
+    }).use('fly', 'face');
 </script>
-
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cspan id='cnzz_stat_icon_30088308'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/c.php%3Fid%3D30088308' type='text/javascript'%3E%3C/script%3E"));</script>
-
 </body>
 </html>

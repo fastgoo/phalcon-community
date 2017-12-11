@@ -41,6 +41,6 @@ return new Config([
         'baseUri' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}"
     ],
     /** 默认控制器和方法 */
-    'baseController' => '',
-    'baseAction' => '',
+    'baseController' => 'home',
+    'baseAction' => 'index',
 ]);

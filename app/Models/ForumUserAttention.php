@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ForumRecommandResource extends BaseModel
+class ForumUserAttention extends BaseModel
 {
 
     /**
@@ -16,24 +16,24 @@ class ForumRecommandResource extends BaseModel
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
      */
-    public $title;
+    public $user_id;
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=500, nullable=false)
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
      */
-    public $url;
+    public $attention_user_id;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=4, nullable=false)
      */
-    public $sort;
+    public $status;
 
     /**
      *
@@ -64,14 +64,14 @@ class ForumRecommandResource extends BaseModel
      */
     public function getSource()
     {
-        return 'forum_recommand_resource';
+        return 'forum_user_attention';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumRecommandResource[]|ForumRecommandResource|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumUserAttention[]|ForumUserAttention|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -82,7 +82,7 @@ class ForumRecommandResource extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumRecommandResource|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumUserAttention|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

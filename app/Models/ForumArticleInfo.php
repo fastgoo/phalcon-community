@@ -102,7 +102,17 @@ class ForumArticleInfo extends BaseModel {
      */
     public function initialize() {
         $this->setSchema("phalcon-forum");
+<<<<<<< HEAD
         $this->belongsTo("user_id", "App\\Models\\ForumUser", "id", ['alias' => 'userInfo']);
+=======
+        //$this->hasOne("user_id","App\\Models\\ForumUser","id",['alias' => 'articleUserInfo']);
+        $this->belongsTo(
+            "user_id",
+            "App\\Models\\ForumUser",
+            "id",
+            ['alias' => 'articleUserInfo']
+        );
+>>>>>>> master
     }
 
     /**

@@ -3,7 +3,9 @@
     "php": ">=5.6.0",
     "qiniu/php-sdk": "7.x",
     "firebase/php-jwt": "*",
-    "overtrue/socialite": "~1.1"
+    "overtrue/socialite": "~1.1",
+    "guzzlehttp/guzzle": "^6.3",
+    "jaeger/querylist": "^4.0"
   },
   "autoload": {
     "psr-4": {

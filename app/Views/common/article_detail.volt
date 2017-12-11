@@ -37,12 +37,12 @@
         </div>
         <div class="detail-about">
             <a class="fly-avatar" href="/user/home/detail/{{ article.userInfo.id }}">
-                <img src="{{ article.userInfo.head_img }}" alt="{{ article.userInfo.nickname }}">
+                <img src="{{ article.articleUserInfo.head_img }}" alt="{{ article.articleUserInfo.nickname }}">
             </a>
             <div class="fly-detail-user">
-                <a href="/user/home/detail/{{ article.userInfo.id }}" class="fly-link">
-                    <cite>{{ article.userInfo.nickname }}</cite>
-                    <i class="iconfont icon-renzheng" title="认证信息：{{ article.userInfo.verify_type }}"></i>
+                <a href="/user/home/detail/{{ article.articleUserInfo.id }}" class="fly-link">
+                    <cite>{{ article.articleUserInfo.nickname }}</cite>
+                    <i class="iconfont icon-renzheng" title="认证信息：{{ article.articleUserInfo.verify_type }}"></i>
                     <i class="layui-badge fly-badge-vip">VIP3</i>
                 </a>
                 <span>发布于：{{ article.format_time }}</span>
@@ -61,108 +61,91 @@
         <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
             <legend>回帖</legend>
         </fieldset>
-
         <ul class="jieda" id="jieda">
-            <li data-id="111" class="jieda-daan">
-                <a name="item-1111111111"></a>
-                <div class="detail-about detail-about-reply">
-                    <a class="fly-avatar" href="">
-                        <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                             alt=" ">
-                    </a>
-                    <div class="fly-detail-user">
-                        <a href="" class="fly-link">
-                            <cite>贤心</cite>
-                            <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                            <i class="layui-badge fly-badge-vip">VIP3</i>
-                        </a>
+            {% if reply.count() > 0 %}
+                {% for index, item in reply %}
 
-                        <span>(楼主)</span>
-                        <!--
-                        <span style="color:#5FB878">(管理员)</span>
-                        <span style="color:#FF9E3F">（社区之光）</span>
-                        <span style="color:#999">（该号已被封）</span>
-                        -->
-                    </div>
+                    <li id="hash-{{ item.id }}" class="jieda-daan">
+                        <a name="item-{{ item.created_time }}"></a>
+                        <div class="detail-about detail-about-reply">
+                            <a class="fly-avatar">
+                                <img src="{{ item.userInfo.head_img }}">
+                            </a>
+                            <div class="fly-detail-user">
+                                <a href="" class="fly-link">
+                                    <cite>{{ item.userInfo.nickname }}</cite>
+                                    {% if item.userInfo.verify_type %}
+                                        <i class="iconfont icon-renzheng"
+                                           title="认证信息：{{ item.userInfo.verify_type }}"></i>
+                                    {% endif %}
+                                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                                </a>
+                                {% if item.userInfo.id == article.user_id %}
+                                    <span>(楼主)</span>
+                                {% endif %}
 
-                    <div class="detail-hits">
-                        <span>2017-11-30</span>
-                    </div>
+                                {#<span style="color:#5FB878">(管理员)</span>
+                                <span style="color:#FF9E3F">（社区之光）</span>
+                                <span style="color:#999">（该号已被封）</span>#}
 
-                    <i class="iconfont icon-caina" title="最佳答案"></i>
-                </div>
-                <div class="detail-body jieda-body photos">
-                    <p>香菇那个蓝瘦，这是一条被采纳的回帖</p>
-                </div>
-                <div class="jieda-reply">
-              <span class="jieda-zan zanok" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>66</em>
-              </span>
-                    <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
-                    <div class="jieda-admin">
-                        <span type="edit">编辑</span>
-                        <span type="del">删除</span>
-                        <!-- <span class="jieda-accept" type="accept">采纳</span> -->
-                    </div>
-                </div>
-            </li>
+                            </div>
 
-            <li data-id="111">
-                <a name="item-1111111111"></a>
-                <div class="detail-about detail-about-reply">
-                    <a class="fly-avatar" href="">
-                        <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                             alt=" ">
-                    </a>
-                    <div class="fly-detail-user">
-                        <a href="" class="fly-link">
-                            <cite>贤心</cite>
-                        </a>
-                    </div>
-                    <div class="detail-hits">
-                        <span>2017-11-30</span>
-                    </div>
-                </div>
-                <div class="detail-body jieda-body photos">
-                    <p>蓝瘦那个香菇，这是一条没被采纳的回帖</p>
-                </div>
-                <div class="jieda-reply">
-              <span class="jieda-zan" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>0</em>
-              </span>
-                    <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
-                    <div class="jieda-admin">
-                        <span type="edit">编辑</span>
-                        <span type="del">删除</span>
-                        <span class="jieda-accept" type="accept">采纳</span>
-                    </div>
-                </div>
-            </li>
-
-            <!-- 无数据时 -->
-            <!-- <li class="fly-none">消灭零回复</li> -->
+                            <div class="detail-hits">
+                                <span><?=timeCompute($item->created_time);?></span>
+                            </div>
+                            {% if item.is_adoption %}
+                                <i class="iconfont icon-caina" title="最佳答案"></i>
+                            {% endif %}
+                        </div>
+                        <div class="detail-body jieda-body photos">
+                            {{ item.content }}
+                        </div>
+                        <?php $has_zan = \App\Models\ForumArticleReplyPraise::findFirst(["conditions" => "user_id =
+                        :user_id:
+                        AND reply_id = :reply_id:","bind" => ['user_id' => $local_user['id'],'reply_id' =>
+                        $item->id]]);?>
+                        <div class="jieda-reply">
+                      <span class="jieda-zan{{ has_zan ? ' zanok' : '' }}" type="zan"
+                            data-status="{{ has_zan ? 1: 0 }}" data-id="{{ item.id }}">
+                        <i class="iconfont icon-zan"></i>
+                            <em>{{ item.praise_nums }}</em>
+                      </span>
+                            {% if item.userInfo.id != local_user['id'] %}
+                            <span type="reply" class="_reply" data-id="{{ item.id }}"
+                                  data-nickname="{{ item.userInfo.nickname }}" data-user_id="{{ item.userInfo.id }}">
+                        <i class="iconfont icon-svgmoban53"></i>回复
+                                {% endif %}
+                    </span>
+                            <div class="jieda-admin">
+                                <?php  if($article->tag_name == '求助' && !$article->adoption_reply_id &&
+                                $article->user_id == $local_user['id'] && $item->user_id != $local_user['id']){?>
+                                <span class="jieda-accept" type="accept" data-id="{{ item.id }}">采纳</span>
+                                <?php }?>
+                                {#<span type="edit">编辑</span>#}
+                                {#<span type="del">删除</span>#}
+                                <!-- <span class="jieda-accept" type="accept">采纳</span> -->
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="fly-none">消灭零回复</li>
+            {% endif %}
         </ul>
+        {{ partial("common/pagination",['status': true]) }}
 
         <div class="layui-form layui-form-pane">
-            <form action="/jie/reply/" method="post">
+            <form action="/forum/reply/save" method="post">
+                <input type="hidden" name="article_id" value="{{ article.id }}">
                 <div class="layui-form-item layui-form-text">
                     <a name="comment"></a>
                     <div class="layui-input-block">
-                        <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"
+                        <textarea id="L_content" name="html_content" required lay-verify="required" placeholder="请输入内容"
                                   class="layui-textarea fly-editor" style="height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <input type="hidden" name="jid" value="123">
-                    <button class="layui-btn" lay-filter="*" lay-submit>提交回复</button>
+                    <button class="layui-btn" lay-filter="reply" lay-submit alert="回复成功">提交回复</button>
                 </div>
             </form>
         </div>

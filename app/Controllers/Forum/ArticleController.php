@@ -10,6 +10,11 @@ namespace App\Controllers\Forum;
 
 use App\Controllers\BaseController;
 use App\Models\ForumArticleInfo;
+use App\Services\AdvertisingService;
+use App\Services\ArticleInfoService;
+use App\Services\CoopLinkService;
+use App\Services\RecommendResourceService;
+use App\Services\ReplyService;
 
 class ArticleController extends BaseController
 {
@@ -27,6 +32,11 @@ class ArticleController extends BaseController
      */
     public function detailAction($id)
     {
+        $page = $this->request->get('current_page', 'int', 1);
+        $nums = $this->request->get('page_nums', 'int', 15);
+        $page <= 0 && $page = 1;
+        $nums <= 0 && $nums = 15;
+
         $article = ForumArticleInfo::findFirst([
             "conditions" => "id = :article_id: AND status = :status:",
             "bind" => [
@@ -35,12 +45,37 @@ class ArticleController extends BaseController
             ],
             'columns' => '*',
         ]);
+        if (!$article) {
+            $this->view->render("common", "error404");
+            return;
+        }
+        $article->view_nums += 1;
+        $article->save();
         $tags = $this->commonConfig->tags->toArray();
         $article->format_time = timeCompute($article->created_time);
         $article->tag_name = $tags[$article->tag];
         $this->view->article = $article;
+<<<<<<< HEAD
         $this->display('/forum/detail',$article);
         //$this->view->render("forum", "detail");
+=======
+        $replyService = new ReplyService();
+        $replyList = $replyService->getArticleReply($id, $page, $nums);
+        $this->view->reply = $replyList['data'];
+        $this->view->reply_count = $replyList['count'];
+        $this->view->pagination = [
+            'current_page' => $page,
+            'count' => $replyList['count'],
+            'max_page' => (int)ceil($replyList['count'] / $nums),
+            'link' => '/forum/article/detail/' . $id . "?current_page="
+        ];
+        $this->view->recommend_resource = RecommendResourceService::getRecommendData();
+        $this->view->reply_rank = ReplyService::getRank();
+        $this->view->hot_article = ArticleInfoService::getHotData();
+        $this->view->advertsing = AdvertisingService::getAdvData();
+        $this->view->coop_link = CoopLinkService::getCoopData();
+        $this->view->render("forum", "detail");
+>>>>>>> master
     }
 
     /**
@@ -75,11 +110,14 @@ class ArticleController extends BaseController
             output_data(-502, '非法请求');
         }
 
-        if (!$this->security->checkToken()) {
-            output_data(-401, '请刷新页面重新再提交请求');
+        if (!$this->user) {
+            output_data(-401, '请先登录');
         }
 
-        $this->user['id'] = 1;
+        if (!$this->security->checkToken()) {
+            output_data(-400, '请刷新页面重新再提交请求');
+        }
+
         $title = $this->request->getPost('title');
         $tag = $this->request->getPost('tag', 'int');
         $content = $this->request->getPost('html_content');

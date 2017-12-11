@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ForumArticleReply extends BaseModel
+class ForumUserCollection extends BaseModel
 {
 
     /**
@@ -19,42 +19,14 @@ class ForumArticleReply extends BaseModel
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $article_id;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $at_user;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
     public $user_id;
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=500, nullable=false)
-     */
-    public $content;
-
-    /**
-     *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $praise_nums;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $is_adoption;
+    public $article_id;
 
     /**
      *
@@ -73,7 +45,7 @@ class ForumArticleReply extends BaseModel
     /**
      *
      * @var integer
-     * @Column(type="integer", length=11, nullable=true)
+     * @Column(type="integer", length=11, nullable=false)
      */
     public $updated_time;
 
@@ -83,12 +55,6 @@ class ForumArticleReply extends BaseModel
     public function initialize()
     {
         $this->setSchema("phalcon-forum");
-        $this->belongsTo(
-            "user_id",
-            "App\\Models\\ForumUser",
-            "id",
-            ['alias' => 'userInfo']
-        );
     }
 
     /**
@@ -98,14 +64,14 @@ class ForumArticleReply extends BaseModel
      */
     public function getSource()
     {
-        return 'forum_article_reply';
+        return 'forum_user_collection';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumArticleReply[]|ForumArticleReply|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumUserCollection[]|ForumUserCollection|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -116,7 +82,7 @@ class ForumArticleReply extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumArticleReply|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumUserCollection|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

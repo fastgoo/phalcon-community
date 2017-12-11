@@ -1,6 +1,6 @@
 项目介绍
 =======
-phalcon国内中文社区开源项目 [线上地址](https://admin.fastgoo.net/vue/dist/index.html).
+phalcon国内中文社区开源项目 [线上地址](https://phalcon.fastgoo.net).
 
 安装
 ------------

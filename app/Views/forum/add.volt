@@ -83,7 +83,7 @@
                             <input type="hidden" id="securityToken" name="{{ this.security.getTokenKey() }}"
                                    value="{{ this.security.getToken() }}"/>
                             <div class="layui-form-item">
-                                <button class="layui-btn" lay-filter="*" lay-submit>立即发布</button>
+                                <button class="layui-btn" lay-filter="article-publish" lay-submit>立即发布</button>
                             </div>
                         </form>
                     </div>
@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<script src="/app/layui/layui.js"></script>
+<script src="/app/layui/layui.all.js"></script>
 <script>
     layui.cache.page = '';
     layui.cache.user = {
@@ -110,9 +110,5 @@
         fly: 'index'
     }).use('fly', 'face');
 </script>
-
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cspan id='cnzz_stat_icon_30088308'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/c.php%3Fid%3D30088308' type='text/javascript'%3E%3C/script%3E"));</script>
-
 </body>
 </html>

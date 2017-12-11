@@ -196,7 +196,7 @@ pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid 
 .fly-search{display: inline-block; vertical-align: top; width: 50px; height: 50px; margin-right: 10px; text-align: center; cursor: pointer; font-size: 20px;}
 .fly-search .layui-icon{font-size: 20px;}
 .fly-search:hover{color: #5FB878;}
-.fly-layer-search input{height: 75px; line-height: 75px; width: 500px; padding: 0 15px; font-size: 20px; border: none 0; background: none;}
+.fly-layer-search input{height: 75px; line-height: 75px; width: 15em; padding: 0 15px; font-size: 20px; border: none 0; background: none;}
 
 /* 筛选 */
 .fly-filter a{padding: 0 8px; color: #666;}
@@ -240,6 +240,10 @@ pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid 
 .fly-list li h2{height: 26px; font-size: 0;}
 .fly-list li h2 a{display: inline-block; max-width: 80%; padding-right: 10px; font-size: 16px;}
 .fly-list li h2 .layui-badge{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #5FB878; background: none; color: #5FB878;}
+.fly-list li h2 .layui-badge0{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #c4c6c4; background: none; color: #c4c6c4;}
+.fly-list li h2 .layui-badge1{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #42b844; background: none; color: #42b844;}
+.fly-list li h2 .layui-badge2{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #d93a33; background: none; color: #d93a33;}
+.fly-list li h2 .layui-badge3{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #5FB878; background: none; color: #5FB878;}
 
 .fly-list-info{position: relative; font-size: 13px; color: #999;}
 .fly-list-info>*{padding-right: 15px;}
@@ -380,7 +384,8 @@ body .layui-edit-face  .layui-layer-content{padding:0; background-color:#fff; co
 .jieda-reply span em{font-style: normal;}
 .jieda-reply span .icon-zan{font-size: 22px;}
 .jieda-reply .zanok,
-.jieda-reply .jieda-zan:hover{color:#c00}
+.jieda-reply .jieda-zan:hover{color: rgba(69, 76, 94, 0.93)
+}
 .jieda-reply span .icon-svgmoban53{position: relative; top: 1px;}
 
 
