@@ -37,7 +37,7 @@ class HomeController extends BaseController
         $this->view->order_by_time = true;
 
         $page = $this->request->get('current_page', 'int', 1);
-        $pageNums = $this->request->get('page_nums', 'int', 15);
+        $pageNums = $this->request->get('page_nums', 'int', 20);
         $searchStr = $this->request->get('search');
 
         $conditions = "status = :status:";
