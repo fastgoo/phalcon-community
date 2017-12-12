@@ -78,7 +78,6 @@ class ArticleController extends BaseController
      */
     public function addAction()
     {
-        $user = $this->user['id'];
         $this->view->tags = $this->commonConfig->tags;
         $this->view->verify_question = setQuestionVerify();
         $this->view->render("forum", "add");
@@ -88,12 +87,29 @@ class ArticleController extends BaseController
      * 修改资讯页面
      * @param $articleId
      */
-    public function editAction($articleId)
+    public function editAction(int $articleId)
     {
-        $user = $this->user['id'];
+        if (!$this->user) {
+            $this->response->redirect('/');
+        }
+        $articleInfo = ForumArticleInfo::findFirst([
+            'conditions' => 'id = :article_id: AND status = :status:',
+            'bind' => [
+                'article_id' => $articleId,
+                'status' => 1
+            ]
+        ]);
+        if (!$articleInfo) {
+            $this->response->redirect('/');
+        }
+        if ($articleInfo->user_id != $this->user['id']) {
+            $this->response->redirect('/');
+        }
+        //echo $articleInfo->content;exit;
         $this->view->tags = $this->commonConfig->tags;
         $this->view->verify_question = setQuestionVerify();
-        $this->view->render("forum", "add");
+        $this->view->article = $articleInfo;
+        $this->view->render("forum", "edit");
     }
 
     /**
@@ -115,10 +131,11 @@ class ArticleController extends BaseController
 
         $title = $this->request->getPost('title');
         $tag = $this->request->getPost('tag', 'int');
-        $content = $this->request->getPost('html_content');
+        $html_content = $this->request->getPost('html_content');
+        $content = $this->request->getPost('content');
         $answer = $this->request->getPost('verify_answer', 'int');
         $articleId = $this->request->getPost('article_id', 'int');
-        if (!$title || !in_array($tag, [0, 1, 2]) || !$content || is_null($answer)) {
+        if (!$title || !in_array($tag, [0, 1, 2]) || !$content || !$html_content || is_null($answer)) {
             output_data(-1, '必要信息不能为空');
         }
         if ($articleId) {
@@ -142,10 +159,93 @@ class ArticleController extends BaseController
         $article->tag = $tag;
         $article->title = strip_tags($title);
         $article->content = str_replace(['<script>', '</script>'], '', $content);
+        $article->html_content = $html_content;
         $article->updated_time = time();
         if ($article->save()) {
             output_data(1, 'success');
         }
         output_data(-1, '发布失败，请重试');
+    }
+
+    /**
+     * 设置置顶、精华
+     */
+    public function setTopOrEssenceAction()
+    {
+        if (!$this->request->isPost()) {
+            output_data(-502, '非法请求');
+        }
+
+        if (!$this->user) {
+            output_data(-401, '请先登录');
+        }
+        if ($this->user['verify_type'] < 110) {
+            output_data(-403, '你无权设置');
+        }
+        $article_id = $this->request->getPost('article_id', 'int');
+        $is_top = $this->request->getPost('is_top', 'int');
+        $is_essence = $this->request->getPost('is_essence', 'int');
+        if (!$article_id || (!$is_top && !$is_essence)) {
+            output_data(-1, '必要信息不能为空');
+        }
+        $articleInfo = ForumArticleInfo::findFirst([
+            'conditions' => 'id = :article_id: AND status = :status:',
+            'bind' => [
+                'article_id' => $article_id,
+                'status' => 1
+            ]
+        ]);
+        if (!$articleInfo) {
+            output_data(-1, '文章不存在，不可操作');
+        }
+        $status = 0;
+        if ($is_top) {
+            $status = $articleInfo->is_top = $articleInfo->is_top ? 0 : 1;
+        }
+
+        if ($is_essence) {
+            $status = $articleInfo->is_essence = $articleInfo->is_essence ? 0 : 1;
+        }
+
+        if ($articleInfo->save()) {
+            output_data(1, '操作成功', ['status' => $status]);
+        }
+        output_data(-1, '操作失败');
+    }
+
+    /**
+     * 删除文章
+     */
+    public function deleteAction()
+    {
+        if (!$this->request->isPost()) {
+            output_data(-502, '非法请求');
+        }
+
+        if (!$this->user) {
+            output_data(-401, '请先登录');
+        }
+        $article_id = $this->request->getPost('article_id', 'int');
+        if (!$article_id) {
+            output_data(-1, '必要信息不能为空');
+        }
+        $articleInfo = ForumArticleInfo::findFirst([
+            'conditions' => 'id = :article_id: AND status = :status:',
+            'bind' => [
+                'article_id' => $article_id,
+                'status' => 1
+            ]
+        ]);
+        if (!$articleInfo) {
+            output_data(-1, '文章不存在，不可操作');
+        }
+        if ($articleInfo->user_id != $this->user['id'] && $this->user['verify_type'] < 110) {
+            output_data(-1, '你无权操作');
+        }
+        $articleInfo->status = -1;
+        if ($articleInfo->save()) {
+            output_data(1, '删除成功');
+        }
+        output_data(-1, '删除失败');
     }
 }

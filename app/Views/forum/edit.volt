@@ -16,14 +16,13 @@
 {#社区文章类型头部#}
 {#{{ partial("common/category",['links': '123']) }}#}
 
-
 <div class="layui-container fly-marginTop" style="padding-top: 20px;">
     <div class="fly-panel" pad20 style="padding-top: 5px;">
         <!--<div class="fly-none">没有权限</div>-->
         <div class="layui-form layui-form-pane">
             <div class="layui-tab layui-tab-brief" lay-filter="user">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">发表新帖<!-- 编辑帖子 --></li>
+                    <li class="layui-this">编辑文章<!-- 编辑帖子 --></li>
                 </ul>
                 <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
                     <div class="layui-tab-item layui-show">
@@ -34,7 +33,7 @@
                                     <div class="layui-input-block">
                                         <select lay-verify="required" name="tag" lay-filter="column">
                                             {% for index, item in tags %}
-                                                <option value="{{ index }}">{{ item }}</option>
+                                                <option value="{{ index }}" {{ index == article.tag ? 'selected' : '' }}>{{ item }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -43,15 +42,15 @@
                                     <label for="L_title" class="layui-form-label">标题</label>
                                     <div class="layui-input-block">
                                         <input type="text" id="L_title" name="title" required lay-verify="required"
-                                               autocomplete="off" class="layui-input">
-                                        <!-- <input type="hidden" name="id" value="{{ d.edit.id }}"> -->
+                                               autocomplete="off" class="layui-input" value="{{ article.title }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
                                 <div class="layui-input-block">
                         <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"
-                                  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+                                  class="layui-textarea fly-editor"
+                                  style="height: 300px;">{{ article.content }}</textarea>
                                 </div>
                             </div>
                             {#<div class="layui-form-item">#}
@@ -82,8 +81,10 @@
                             </div>
                             <input type="hidden" id="securityToken" name="{{ this.security.getTokenKey() }}"
                                    value="{{ this.security.getToken() }}"/>
+                            <input type="hidden" name="article_id"
+                                   value="{{ article.id }}"/>
                             <div class="layui-form-item">
-                                <button class="layui-btn" lay-filter="article-publish" lay-submit>立即发布</button>
+                                <button class="layui-btn" lay-filter="article-publish" lay-submit>保存修改</button>
                             </div>
                         </form>
                     </div>
@@ -103,6 +104,7 @@
         , experience: 83
         , sex: '男'
     };
+
     layui.config({
         version: "2.0.0",
         base: "/app/mods/",

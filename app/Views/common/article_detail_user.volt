@@ -3,16 +3,23 @@
 
         <div class="fly-home fly-panel">
             <img src="{{ article.articleUserInfo.head_img }}">
-            <i class="iconfont icon-renzheng" title="认证信息：{{ article.articleUserInfo.verify_type }}"></i>
+            {% if article.articleUserInfo.verify_type %}
+                <i class="iconfont icon-renzheng"
+                   title="认证信息：{{ verify_title[article.articleUserInfo.verify_type] }}"></i>
+            {% endif %}
             <h3 style="margin-top: 10px;">
                 {{ article.articleUserInfo.nickname }}
-                <i class="layui-badge fly-badge-vip">VIP3</i></h3>
-            <p class="fly-home-info" style="margin-top: 10px;">
-                <i class="iconfont icon-shijian"></i>
-                <span>{{ date("Y-m-d",article.articleUserInfo.created_time) }} 加入</span>
-                <i class="iconfont icon-chengshi"></i><span>来自中国 {{ article.articleUserInfo.city }}</span>
-            </p>
-            <p class="fly-home-sign">{{ article.articleUserInfo.sign ? article.articleUserInfo.sign : '（这个人懒得留下签名）' }}</p>
+                <?php if(!empty($verify_title[$article->articleUserInfo->verify_type])){?>
+                <i class="layui-badge fly-badge-vip">{{ verify_title[article.articleUserInfo.verify_type] }}</i>
+                <?php }else{?>
+                <i class="layui-badge fly-badge-vip" style="background-color: #1E9FFF">会员</i>
+                <?php }?>
+                <p class="fly-home-info" style="margin-top: 10px;">
+                    <i class="iconfont icon-shijian"></i>
+                    <span>{{ date("Y-m-d",article.articleUserInfo.created_time) }} 加入</span>
+                    <i class="iconfont icon-chengshi"></i><span>来自中国 {{ article.articleUserInfo.city }}</span>
+                </p>
+                <p class="fly-home-sign">{{ article.articleUserInfo.sign ? article.articleUserInfo.sign : '（这个人懒得留下签名）' }}</p>
         </div>
         <ul class="fly-panel-main fly-list-static" style="text-align: center">
             <div style="padding-bottom: 10px;">
