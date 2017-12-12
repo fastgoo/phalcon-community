@@ -13,9 +13,10 @@ $modules = [
     'base.api' => 'BaseApi',
     'admin.api' => 'Admin\\Api',
     'admin.web' => 'Admin\\Web',
-    'news' => 'News',
+    'news'  => 'News',
     'forum' => 'Forum',
-    'auth' => 'Auth',
+    'auth'  => 'Auth',
+    'user'  => "User",
 ];
 
 
