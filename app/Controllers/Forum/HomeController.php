@@ -57,6 +57,8 @@ class HomeController extends BaseController
                 break;
             case 2:
                 $order .= ", reply_nums DESC, is_essence DESC";
+                $conditions .= ' AND is_essence = :is_essence:';
+                $bind['is_essence'] = 1;
                 break;
             case 3:
                 $conditions .= " AND tag = :tag:";

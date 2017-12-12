@@ -20,16 +20,6 @@
                 <span class="layui-badge layui-bg-red">精帖</span>
             {% endif %}
 
-            {#<div class="fly-admin-box" data-id="{{ article.id }}">
-                <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
-
-                <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
-                <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->
-
-                <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
-                <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
-            </div>#}
-
             <span class="fly-list-nums">
             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ article.reply_nums }}</a>
             <i class="iconfont" title="人气">&#xe60b;</i> {{ article.view_nums }}
@@ -42,18 +32,43 @@
             <div class="fly-detail-user">
                 <a href="/user/home/detail/{{ article.articleUserInfo.id }}" class="fly-link">
                     <cite>{{ article.articleUserInfo.nickname }}</cite>
-                    <i class="iconfont icon-renzheng" title="认证信息：{{ article.articleUserInfo.verify_type }}"></i>
-                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                    {% if article.articleUserInfo.verify_type %}
+                        <i class="iconfont icon-renzheng"
+                           title="认证信息：{{ verify_title[article.articleUserInfo.verify_type] }}"></i>
+                    {% endif %}
+                    <?php if(!empty($verify_title[$article->articleUserInfo->verify_type])){?>
+                    <i class="layui-badge fly-badge-vip">{{ verify_title[article.articleUserInfo.verify_type] }}</i>
+                    <?php }else{?>
+                    &nbsp;
+                    <i class="layui-badge fly-badge-vip" style="background-color: #1E9FFF">会员</i>
+                    <?php }?>
                 </a>
                 <span>发布于：{{ article.format_time }}</span>
             </div>
             <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
                 <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>
-                <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="add.html">编辑此贴</a></span>
+                {% if article.user_id == local_user['id'] %}
+                    <span class="layui-btn layui-btn-xs jie-admin" type="edit" style="background-color: #5b5867"><a
+                                href="/forum/article/edit/{{ article.id }}">编辑</a></span>
+                    <span class="layui-btn layui-btn-xs jie-admin" type="edit" style="background-color: #5b5867"><a
+                                href="javascript:;" id="article_delete">删除</a></span>
+                {% endif %}
+
+                {% if local_user['verify_type'] >= 110 %}
+                    {% if article.user_id != local_user['id'] %}
+                        <span class="layui-btn layui-btn-xs jie-admin" type="edit" style="background-color: #5b5867"><a
+                                    href="javascript:;" id="article_delete">删除</a></span>
+                    {% endif %}
+                    <span class="layui-btn layui-btn-xs jie-admin" type="edit" style="background-color: #5b5867"><a
+                                href="javascript:;"
+                                id="set_essence">{{ article.is_essence ? '取消精华' : '设置精华' }}</a></span>
+                    <span class="layui-btn layui-btn-xs jie-admin" type="edit" style="background-color: #5b5867"><a
+                                href="javascript:;" id="set_top">{{ article.is_top ? '取消置顶' : '设置置顶' }}</a></span>
+                {% endif %}
             </div>
         </div>
         <div class="detail-body">
-            {{ article.content }}
+            {{ article.html_content }}
         </div>
     </div>
 
@@ -129,7 +144,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <li class="fly-none">消灭零回复</li>
+                <li class="fly-none">暂时没有人回复，你来做第一个吧</li>
             {% endif %}
         </ul>
         {{ partial("common/pagination",['status': true]) }}

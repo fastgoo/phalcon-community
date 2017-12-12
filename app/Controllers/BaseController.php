@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Services\AuthService;
+use App\Models\ForumUser;
 use Phalcon\Mvc\Controller;
 
 class BaseController extends Controller
@@ -11,9 +11,10 @@ class BaseController extends Controller
 
     public function onConstruct()
     {
-        //$this->user = $this->session->get('user') ?: ForumUser::findFirst('id = 3 AND status = 1')->toArray();
-        $this->user = $this->session->get('user');
+        $this->user = $this->session->get('user') ?: ForumUser::findFirst('id = 11 AND status = 1')->toArray();
+        //$this->user = $this->session->get('user');
         $this->view->local_user = $this->user;
+        $this->view->verify_title = $this->commonConfig->verify_title->toArray();
     }
 
     /**

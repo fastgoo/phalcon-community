@@ -761,8 +761,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
     /** 发布文章接口操作方法 */
     form.on('submit(article-publish)', function (data) {
         var action = $(data.form).attr('action'), button = $(data.elem);
-        if (data.field.html_content) {
-            data.field.html_content = fly.content(data.field.html_content);
+        if (data.field.content) {
+            data.field.html_content = fly.content(data.field.content);
         }
         fly.json(action, data.field, function (res) {
             var end = function () {
@@ -836,6 +836,57 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             });
         }
     }
+
+    /** 设置置顶、精华 */
+    $("#set_essence").on("click", function () {
+        var that = $(this);
+        layer.confirm(that.text() + '帖', {icon: 3, title: '提示'}, function (index) {
+            fly.json('/forum/article/setTopOrEssence', {
+                article_id: $("input[name='article_id']").val(),
+                is_essence: 1,
+            }, function (res) {
+                if (res.data.status == 1) {
+                    that.text('取消精华');
+                } else {
+                    that.text('设置精华');
+                }
+            });
+            layer.close(index);
+        });
+    });
+
+    $("#set_top").on("click", function () {
+        var that = $(this);
+        layer.confirm(that.text() + '帖', {icon: 3, title: '提示'}, function (index) {
+            fly.json('/forum/article/setTopOrEssence', {
+                article_id: $("input[name='article_id']").val(),
+                is_top: 1,
+            }, function (res) {
+                if (res.data.status == 1) {
+                    that.text('取消置顶');
+                } else {
+                    that.text('设置置顶');
+                }
+            });
+            layer.close(index);
+        });
+    });
+
+    $("#article_delete").on("click", function () {
+        var that = $(this);
+        layer.confirm('是否确认删除该文章，不可撤回操作', {icon: 3, title: '提示'}, function (index) {
+            fly.json('/forum/article/delete', {
+                article_id: $("input[name='article_id']").val(),
+            }, function (res) {
+                if(res.code == 1){
+                    layer.msg('删除成功');
+                    location.href = '/';
+                }
+            });
+            layer.close(index);
+        });
+    });
+
 
     exports('fly', fly);
 
