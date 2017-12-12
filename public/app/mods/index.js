@@ -671,7 +671,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         layui.laypage.render({
             elem: 'pagination'
             , count: $("#page_count").val()
-            , limit: 15
+            , limit: $("#attention_user").data('user_id') ? 15 : 20
             , curr: $("#current_page").val()
             , jump: function (obj) {
                 if (obj.curr != $("#current_page").val()) {
@@ -878,7 +878,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             fly.json('/forum/article/delete', {
                 article_id: $("input[name='article_id']").val(),
             }, function (res) {
-                if(res.code == 1){
+                if (res.code == 1) {
                     layer.msg('删除成功');
                     location.href = '/';
                 }
