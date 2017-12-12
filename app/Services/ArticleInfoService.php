@@ -28,6 +28,24 @@ class ArticleInfoService
             'cache' => ["lifetime" => 3600, "key" => "article-hot"]
         ]);
     }
+    
+    /**
+     * 获取用户文章
+     * @param unknown $user_id
+     */
+    public static function getUserArticles($user_id)
+    {
+        return ForumArticleInfo::find([
+            "conditions" => "user_id = :user_id: AND status = :status:",
+            "bind" => [
+                'user_id' => $user_id,
+                'status' => 1
+            ],
+            'columns' => 'id, title, reply_nums, view_nums, created_time',
+            'limit' => 10,
+            'order' => 'id DESC',
+        ]);
+    }
 
 
 }

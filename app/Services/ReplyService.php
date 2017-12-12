@@ -75,6 +75,30 @@ class ReplyService
         }
         return $data;
     }
+    
+    /**
+     * 获取用户回复
+     * @param number $limit
+     */
+    public static function getUserReplys($user_id, $limit = 10)
+    {
+        
+        $field  = 'c.id, c.title,';
+        $field .= 'a.content, a.created_time';
+        
+        return (new ForumArticleReply())->modelsManager
+                                        ->createBuilder()
+                                        ->addFrom('App\Models\ForumArticleReply', 'a')
+                                        ->leftjoin('App\Models\ForumArticleInfo','a.article_id = c.id','c')
+                                        ->columns($field)
+                                        ->andwhere('a.user_id = ' . $user_id)
+                                        ->andWhere('c.status = 1')
+                                        ->andWhere('a.status = 1')
+                                        ->orderBy('a.id desc')
+                                        ->limit($limit)
+                                        ->getQuery()
+                                        ->execute();
+    }
 
 
 }

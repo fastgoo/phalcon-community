@@ -17,9 +17,9 @@ return new Config([
     ],
     'redis' => [
         'prefix' => '',
-        "host" => "39.108.134.88",
+        "host" => "127.0.0.1",
         "port" => 6379,
-        "auth" => "Mr.Zhou",
+        "auth" => "",
     ],
     'memcached' => [
         'prefix' => '',
