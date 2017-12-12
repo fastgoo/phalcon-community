@@ -117,4 +117,8 @@ return new \Phalcon\Config([
         4 => ['name' => '求助', 'has_new' => 0,],
     ],
     'tags' => ['动态', '分享', '求助'],
+    'verify_title' => [
+        110 => '管理员',
+        100 => '创始人',
+    ]
 ]);

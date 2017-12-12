@@ -16,7 +16,11 @@
                     {% if item.articleUserInfo.verify_type %}
                         <i class="iconfont icon-renzheng" title="认证信息：{{ item.articleUserInfo.verify_type }}"></i>
                     {% endif %}
-                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                    <?php if(!empty($verify_title[$item->articleUserInfo->verify_type])){?>
+                    <i class="layui-badge fly-badge-vip">{{ verify_title[item.articleUserInfo.verify_type] }}</i>
+                    <?php }else{?>
+                    <i class="layui-badge fly-badge-vip" style="background-color: #1E9FFF">会员</i>
+                    <?php }?>
                 </a>
                 <span>发布于: <?php echo timeCompute($item->created_time) ;?></span>
 
