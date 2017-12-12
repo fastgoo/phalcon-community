@@ -91,9 +91,13 @@
                                     <cite>{{ item.userInfo.nickname }}</cite>
                                     {% if item.userInfo.verify_type %}
                                         <i class="iconfont icon-renzheng"
-                                           title="认证信息：{{ item.userInfo.verify_type }}"></i>
+                                           title="认证信息：{{ verify_title[item.userInfo.verify_type] }}"></i>
                                     {% endif %}
-                                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                                    <?php if(!empty($verify_title[$item->userInfo->verify_type])){?>
+                                    <i class="layui-badge fly-badge-vip">{{ verify_title[item.userInfo.verify_type] }}</i>
+                                    <?php }else{?>
+                                    <i class="layui-badge fly-badge-vip" style="background-color: #1E9FFF">会员</i>
+                                    <?php }?>
                                 </a>
                                 {% if item.userInfo.id == article.user_id %}
                                     <span>(楼主)</span>
