@@ -13,7 +13,9 @@ use App\Models\RobotAdminInfo;
 
 class AdminController extends BaseController
 {
-
+    /**
+     * ceshiooo
+     */
     public function loginAction()
     {
         output_data(1, 'success');
