@@ -33,11 +33,12 @@ class HomeController extends BaseController
 
     public function indexAction($tag = 0)
     {
+
         $this->view->choose_tag = $tag;
         $this->view->order_by_time = true;
 
         $page = $this->request->get('current_page', 'int', 1);
-        $pageNums = $this->request->get('page_nums', 'int', 15);
+        $pageNums = $this->request->get('page_nums', 'int', 20);
         $searchStr = $this->request->get('search');
 
         $conditions = "status = :status:";
@@ -57,6 +58,8 @@ class HomeController extends BaseController
                 break;
             case 2:
                 $order .= ", reply_nums DESC, is_essence DESC";
+                $conditions .= ' AND is_essence = :is_essence:';
+                $bind['is_essence'] = 1;
                 break;
             case 3:
                 $conditions .= " AND tag = :tag:";
@@ -88,6 +91,7 @@ class HomeController extends BaseController
             'max_page' => (int)ceil($count / $pageNums),
             'link' => '/forum/home/index' . ($tag ? "/$tag" : "") . "?current_page="
         ];
+        //echo 1;exit;
         $this->view->render("forum", "home");
     }
 }

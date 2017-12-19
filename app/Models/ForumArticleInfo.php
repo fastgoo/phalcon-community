@@ -45,6 +45,13 @@ class ForumArticleInfo extends BaseModel {
 
     /**
      *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $html_content;
+
+    /**
+     *
      * @var integer
      * @Column(type="integer", length=4, nullable=false)
      */
