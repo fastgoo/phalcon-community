@@ -104,7 +104,7 @@ if (!function_exists('setQuestionVerify')) {
     }
 }
 
-if (!function_exists('time_compute')) {
+if (!function_exists('timeCompute')) {
     function timeCompute($timeStart)
     {
 

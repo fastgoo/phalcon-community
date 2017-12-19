@@ -26,7 +26,7 @@
           </span>
         </div>
         <div class="detail-about">
-            <a class="fly-avatar" href="/user/home/detail/{{ article.userInfo.id }}">
+            <a class="fly-avatar" href="/user/home/detail/{{ article.articleUserInfo.id }}">
                 <img src="{{ article.articleUserInfo.head_img }}" alt="{{ article.articleUserInfo.nickname }}">
             </a>
             <div class="fly-detail-user">

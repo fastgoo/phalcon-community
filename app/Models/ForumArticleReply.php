@@ -89,6 +89,12 @@ class ForumArticleReply extends BaseModel
             "id",
             ['alias' => 'userInfo']
         );
+        $this->belongsTo(
+            "article_id",
+            "App\\Models\\ForumArticleInfo",
+            "id",
+            ['alias' => 'articleInfo']
+        );
     }
 
     /**
