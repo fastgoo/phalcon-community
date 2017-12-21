@@ -10,7 +10,7 @@
                     <span class="layui-badge" style="background-color: #999;">未解决</span>
                 {% endif %}
             {% else %}
-                <span class="layui-badge layui-bg-green fly-detail-column">{{ article.tag_name }}</span>
+                <span class="layui-badge layui-bg-blue">{{ article.tag_name }}</span>
             {% endif %}
 
             {% if article.is_top %}

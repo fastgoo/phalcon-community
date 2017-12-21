@@ -33,10 +33,10 @@
             </div>
             <div class="fly-list-badge">
                 {% if item.is_top %}
-                    <span class="layui-badge layui-bg-black">置顶</span>
+                    <span class="layui-badge layui-bg-orange">置顶</span>
                 {% endif %}
                 {% if item.is_essence %}
-                    <span class="layui-badge layui-bg-red">精帖</span>
+                    <span class="layui-badge layui-bg-red">精华</span>
                 {% endif %}
             </div>
         </li>

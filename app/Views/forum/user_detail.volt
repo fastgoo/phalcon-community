@@ -18,7 +18,20 @@
 
 <div class="fly-home fly-panel" style="background-image: url();">
     <img src="{{ userInfo.head_img }}" alt="{{ userInfo.nickname }}">
-    <h1> {{ userInfo.nickname }} <i class="iconfont icon-nan"></i></h1>
+    {% if userInfo.verify_type %}
+        <i class="iconfont icon-renzheng" title="认证信息: {{ verifyTitle[userInfo.verify_type] }}"></i>
+    {% endif %}
+    <h1> {{ userInfo.nickname }}
+        {% if userInfo.sex == 1 %}
+            <i class="iconfont icon-nv"></i>
+        {% else %}
+            <i class="iconfont icon-nan"></i>
+        {% endif %}
+        {% if userInfo.verify_type %}
+            <i class="layui-badge fly-badge-vip">{{ verifyTitle[userInfo.verify_type] }}</i>
+        {% endif %}
+    </h1>
+    &nbsp;
     <p class="fly-home-info">
         <i class="iconfont icon-shijian"></i><span>{{ date("Y-m-d",userInfo.created_time) }} 加入</span>
         <i class="iconfont icon-chengshi"></i><span>来自中国 {{ userInfo.city }}</span>

@@ -44,6 +44,7 @@ class HomeController extends BaseController
         ]);
         $this->view->articleList = $articleList;
         $this->view->userInfo = $userInfo;
+        $this->view->verifyTitle = $this->commonConfig->verify_title->toArray();
         $this->view->replyList = $replyList;
         $this->view->render("forum", "user_detail");
     }
