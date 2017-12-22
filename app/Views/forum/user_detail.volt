@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>{{ userInfo.nickname }}的主页</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="phalcon框架,phalcon社区,php中文社区,php">
-    <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+    <meta name="keywords" content="phalcon框架,phalcon社区,php中文社区,php,phalcon中文,phalcon中文社区">
+    <meta name="description" content="phalcon中文社区,国内的phalcon社区交流平台">
     <link rel="stylesheet" href="/app/layui/css/layui.css">
     <link rel="stylesheet" href="/app/css/global.css">
 </head>
