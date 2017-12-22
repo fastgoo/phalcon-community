@@ -103,7 +103,7 @@ return new \Phalcon\Config([
         'doc' => [
             'icon' => '&#xe705;',
             'title' => '文档',
-            'url' => 'http://doc.iphalcon.cn/',
+            'url' => 'http://docs.iphalcon.cn/',
         ]
     ],
     /**
