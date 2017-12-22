@@ -26,8 +26,8 @@ return new \Phalcon\Config([
             'redirect' => 'http://phalcon.fastgoo.net/auth/github/callback',
         ],
         'qq' => [
-            'client_id' => '101280234',
-            'client_secret' => '68ee3753a25469e902fcb8a25ae878de',
+            'client_id' => '101452332',
+            'client_secret' => '1e2731aba5d6bef3f967eaa5d8b50371',
             'redirect' => 'http://phalcon.fastgoo.net/auth/qq/callback',
         ],
         'wechat' => [
