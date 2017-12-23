@@ -23,17 +23,17 @@ return new \Phalcon\Config([
         'github' => [
             'client_id' => '3de789e5949912c3a83b',
             'client_secret' => 'ba135baaffd5c4c5791d58f248f9503c1cb6f2cb',
-            'redirect' => 'http://phalcon.fastgoo.net/auth/github/callback',
+            'redirect' => 'http://www.iphalcon.cn/auth/github/callback',
         ],
         'qq' => [
             'client_id' => '101452332',
             'client_secret' => '1e2731aba5d6bef3f967eaa5d8b50371',
-            'redirect' => 'http://phalcon.fastgoo.net/auth/qq/callback',
+            'redirect' => 'https://phalcon.fastgoo.net/auth/qq/callback',
         ],
         'wechat' => [
             'client_id' => 'wx3f37b98cf00ee980',
             'client_secret' => '4c39e3310498042dbca1ebf5b37a862d',
-            'redirect' => 'http://phalcon.fastgoo.net/auth/wechat/callback',
+            'redirect' => 'http://www.iphalcon.cn/auth/wechat/callback',
         ],
     ],
     /**
