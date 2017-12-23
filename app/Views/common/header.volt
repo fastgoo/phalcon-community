@@ -12,6 +12,7 @@
         </ul>
         <ul class="layui-nav fly-nav-user">
             <input type="hidden" value="{{ local_user ? 1 : 0 }}" id="local_user"/>
+            <input type="hidden" value="{{ login_type }}" id="set_login_type"/>
             <!-- 登入后的状态 -->
             {% if local_user %}
                 <li class="layui-nav-item">

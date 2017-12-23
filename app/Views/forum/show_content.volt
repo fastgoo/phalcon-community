@@ -45,7 +45,7 @@
         , sex: '男'
     };
     layui.config({
-        version: "2.0.0",
+        version: true,
         base:"/app/mods/",
     }).extend({
         fly: 'index'

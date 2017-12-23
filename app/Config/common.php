@@ -7,6 +7,9 @@
  */
 
 return new \Phalcon\Config([
+    'login_type' => [
+        1
+    ],
     /**
      * 七牛上传配置信息
      */

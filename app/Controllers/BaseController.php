@@ -15,6 +15,7 @@ class BaseController extends Controller
         $this->user = $this->session->get('user');
         $this->view->local_user = $this->user;
         $this->view->verify_title = $this->commonConfig->verify_title->toArray();
+        $this->view->login_type = json_encode($this->commonConfig->login_type->toArray());
     }
 
     /**
