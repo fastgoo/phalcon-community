@@ -45,7 +45,6 @@ $di->setShared('log', function () {
     return new FileLogAdapter($path . date('Y-m-d') . ".log");
 });
 
-
 /**
  * The URL component is used to generate all kind of urls in the application
  */

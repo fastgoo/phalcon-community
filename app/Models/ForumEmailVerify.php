@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-class ForumUser extends BaseModel
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Email as EmailValidator;
+
+class ForumEmailVerify extends BaseModel
 {
 
     /**
@@ -17,65 +20,23 @@ class ForumUser extends BaseModel
     /**
      *
      * @var integer
-     * @Column(type="integer", length=4, nullable=false)
+     * @Column(type="integer", length=11, nullable=false)
      */
-    public $auth_type;
+    public $user_id;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=false)
-     */
-    public $auth_id;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=100, nullable=false)
-     */
-    public $nickname;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @Column(type="string", length=50, nullable=false)
      */
     public $email;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=200, nullable=false)
+     * @Column(type="string", length=128, nullable=false)
      */
-    public $head_img;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=1, nullable=false)
-     */
-    public $sex;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=100, nullable=false)
-     */
-    public $city;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=200, nullable=false)
-     */
-    public $sign;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=4, nullable=false)
-     */
-    public $verify_type;
+    public $code;
 
     /**
      *
@@ -83,6 +44,13 @@ class ForumUser extends BaseModel
      * @Column(type="integer", length=4, nullable=false)
      */
     public $status;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $expire_time;
 
     /**
      *
@@ -99,16 +67,33 @@ class ForumUser extends BaseModel
     public $updated_time;
 
     /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        $validator->add(
+            'email',
+            new EmailValidator(
+                [
+                    'model'   => $this,
+                    'message' => 'Please enter a correct email address',
+                ]
+            )
+        );
+
+        return $this->validate($validator);
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("phalcon-forum");
-        $this->hasMany(
-            "id",
-            "App\\Models\\ForumArticleInfo",
-            "user_id"
-        );
     }
 
     /**
@@ -118,14 +103,14 @@ class ForumUser extends BaseModel
      */
     public function getSource()
     {
-        return 'forum_user';
+        return 'forum_email_verify';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumUser[]|ForumUser|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ForumEmailVerify[]|ForumEmailVerify|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -136,7 +121,7 @@ class ForumUser extends BaseModel
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ForumUser|\Phalcon\Mvc\Model\ResultInterface
+     * @return ForumEmailVerify|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

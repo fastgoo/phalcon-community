@@ -87,7 +87,7 @@
                                 <img src="{{ item.userInfo.head_img }}">
                             </a>
                             <div class="fly-detail-user">
-                                <a href="" class="fly-link">
+                                <a href="/user/home/detail/{{ item.userInfo.id }}" class="fly-link">
                                     <cite>{{ item.userInfo.nickname }}</cite>
                                     {% if item.userInfo.verify_type %}
                                         <i class="iconfont icon-renzheng"

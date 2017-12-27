@@ -39,6 +39,12 @@ return new \Phalcon\Config([
             'redirect' => 'http://www.iphalcon.cn/auth/wechat/callback',
         ],
     ],
+    'aliyun_mail' => [
+        'host' => 'email.fastgoo.net',
+        'port' => 465,
+        'username' => 'phalcon@email.fastgoo.net',
+        'password' => 'JUNgege520',
+    ],
     /**
      * Jpush极光推送配置
      */

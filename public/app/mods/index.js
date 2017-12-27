@@ -450,31 +450,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         }, {type: 'get'});
     });
 
-
-    //回帖榜
-    var tplReply = ['{{# layui.each(d.data, function(index, item){ }}'
-        , '<dd>'
-        , '<a href="/u/{{item.uid}}">'
-        , '<img src="{{item.user.avatar}}">'
-        , '<cite>{{item.user.username}}</cite>'
-        , '<i>{{item["count(*)"]}}次回答</i>'
-        , '</a>'
-        , '</dd>'
-        , '{{# }); }}'].join('')
-        , elemReply = $('#LAY_replyRank');
-
-    if (elemReply[0]) {
-        /*
-         fly.json('/top/reply/', {
-         limit: 20
-         }, function(res){
-         var html = laytpl(tplReply).render(res);
-         elemReply.find('dl').html(html);
-         });
-         */
-    }
-    ;
-
     //相册
     if ($(window).width() > 750) {
         layer.photos({
@@ -550,7 +525,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
                 }
 
             };
-            if (res.code == 0) {
+            if (res.code == -1) {
                 button.attr('alert') ? layer.alert(res.msg, {
                     icon: 1,
                     time: 10 * 1000,
@@ -605,7 +580,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         //layer.tips('只想提示地精准些', '.login-header');return;
         var login_type_json = $("#set_login_type").val();
         var arr = JSON.parse(login_type_json);
-        console.log(login_type_json,arr,$.inArray(1, arr),$.inArray(2, arr),$.inArray(3, arr));
+        console.log(login_type_json, arr, $.inArray(1, arr), $.inArray(2, arr), $.inArray(3, arr));
         var str = '<div style="padding: 20px; text-align: center">';
         if ($.inArray(1, arr) >= 0) {
             str += '<a href="/auth/github/auth?redirectUrl=' + window.location.href + '" title="github登录"><icon style="padding: 20px;"><svg t="1512481507116" class="icon" style="" viewBox="0 0 1028 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1907" xmlns:xlink="http://www.w3.org/1999/xlink" width="48.1875" height="48"><defs><style type="text/css"></style></defs><path d="M316.806387 841.06986q0-9.197605 9.197605-9.197605t9.197605 9.197605-9.197605 9.197605-9.197605-9.197605zM274.906188 830.850299q0-9.197605 9.197605-9.197605 10.219561 0 10.219561 9.197605 0 10.219561-10.219561 10.219561-9.197605 0-9.197605-10.219561zM509.956088 0q106.283433 0 199.792415 40.367265t163.001996 109.860279 109.860279 163.001996 40.367265 199.792415q0 82.778443-25.037924 158.914172t-69.493014 138.986028-106.794411 110.371257-135.92016 74.091816q-11.241517 2.043912-25.548902 1.021956t-17.373253-18.39521q-2.043912-12.263473-3.576846-32.702595t-2.043912-41.9002-1.021956-40.878244-0.510978-28.61477-3.576846-23.50499-8.175649-27.592814-9.197605-24.015968-6.642715-13.796407q-2.043912-2.043912 14.307385-4.598802t41.389222-9.708583 54.674651-20.439122 55.185629-35.257485 42.411178-54.163673 16.862275-78.179641q0-69.493014-8.175649-108.327345t-17.373253-58.251497q-11.241517-22.483034-25.548902-28.61477 6.131737-33.724551 9.197605-61.317365 2.043912-23.50499 0.510978-44.966068t-12.774451-27.592814q-11.241517-5.10978-33.213573 2.043912t-45.477046 18.39521q-26.570858 13.285429-57.229541 32.702595-15.329341-5.10978-33.724551-9.197605-16.351297-4.087824-38.834331-7.153693t-50.075848-3.065868-52.630739 3.065868-44.45509 6.131737q-22.483034 4.087824-41.9002 9.197605-30.658683-17.373253-57.229541-29.636727-23.50499-11.241517-45.988024-18.39521t-32.702595-3.065868q-11.241517 5.10978-13.796407 26.05988t-1.532934 45.477046q1.021956 28.61477 5.10978 63.361277-14.307385 15.329341-25.548902 36.790419-10.219561 18.39521-17.884232 44.966068t-7.664671 59.273453q0 47.00998 9.708583 82.778443t26.05988 61.828343 37.301397 43.944112 42.411178 29.125749q51.097804 26.570858 116.502994 30.658683-8.175649 9.197605-14.307385 17.373253-5.10978 7.153693-9.197605 13.796407t-4.087824 9.708583-0.510978 7.664671-1.532934 9.708583l-2.043912 10.219561q-10.219561 4.087824-21.461078 7.153693-9.197605 3.065868-20.439122 5.10978t-22.483034 2.043912-27.592814-11.752495-33.213573-27.081836-30.658683-30.147705-19.928144-20.9501q-6.131737-5.10978-16.351297-8.686627t-20.439122-5.620758-18.39521-2.55489-11.241517 0.510978q-6.131737 3.065868-9.197605 8.686627t5.10978 8.686627q4.087824 2.043912 11.752495 7.664671t15.840319 13.285429 15.329341 15.329341 10.219561 12.774451 9.197605 22.483034 19.928144 35.768463 36.790419 32.702595 61.828343 14.307385q26.570858 0 40.367265-0.510978t20.9501-1.532934l0 78.690619q0 6.131737-1.532934 13.796407t-5.620758 13.285429-11.241517 8.175649-18.39521-0.510978q-2.043912-1.021956-6.131737-1.021956-74.602794-26.570858-136.942116-74.091816t-107.816367-110.882236-71.025948-139.497006-25.548902-159.936128q0-106.283433 40.367265-199.792415t109.860279-163.001996 163.512974-109.860279 200.303393-40.367265zM380.167665 878.882236q4.087824 1.021956 6.131737 2.043912 5.10978 3.065868-6.131737 4.087824l0-6.131737zM359.728543 833.916168q0-10.219561 9.197605-10.219561t9.197605 10.219561q0 9.197605-9.197605 9.197605t-9.197605-9.197605zM177.820359 731.720559q0-6.131737 7.153693-6.131737t7.153693 6.131737q0 7.153693-7.153693 7.153693t-7.153693-7.153693zM246.291417 809.389222q0-9.197605 9.197605-9.197605t9.197605 9.197605q0 10.219561-9.197605 10.219561t-9.197605-10.219561zM207.457086 747.0499q7.153693 0 7.153693 7.153693t-7.153693 7.153693-7.153693-7.153693 7.153693-7.153693zM217.676647 780.774451q0-9.197605 9.197605-9.197605t9.197605 9.197605q0 10.219561-9.197605 10.219561t-9.197605-10.219561z" p-id="1908"></path></svg></icon></a>';
@@ -631,46 +606,66 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
 
     //固定Bar
     util.fixbar({
-        bar2: '&#xe642;'
-        , bar1: '&#xe615;'
-        , bgcolor: '#5d6477'
+        bgcolor: '#5d6477'
         , click: function (type) {
-            if (type === 'bar2') {
-                if ($("#local_user").val() == 1) {
-                    location.href = '/forum/article/add';
-                } else {
-                    //layer.msg('请先登录');
-                    $('.login-header').click();
-                    //location.href = '/forum/article/add';
-                }
-            } else if (type === 'bar1') {
-                layer.open({
-                    type: 1
-                    , title: false
-                    , closeBtn: false
-                    //,shade: [0.1, '#fff']
-                    , shadeClose: true
-                    , maxWidth: 10000
-                    , skin: 'fly-layer-search'
-                    , content: ['<form action="http://cn.bing.com/search">'
-                        , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q">'
-                        , '</form>'].join('')
-                    , success: function (layero) {
-                        var input = layero.find('input');
-                        input.focus();
+            /*if (type === 'bar2') {
+             if ($("#local_user").val() == 1) {
+             location.href = '/forum/article/add';
+             } else {
+             //layer.msg('请先登录');
+             $('.login-header').click();
+             //location.href = '/forum/article/add';
+             }
+             } else if (type === 'bar1') {
+             layer.open({
+             type: 1
+             , title: false
+             , closeBtn: false
+             //,shade: [0.1, '#fff']
+             , shadeClose: true
+             , maxWidth: 10000
+             , skin: 'fly-layer-search'
+             , content: ['<form action="http://cn.bing.com/search">'
+             , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q">'
+             , '</form>'].join('')
+             , success: function (layero) {
+             var input = layero.find('input');
+             input.focus();
 
-                        layero.find('form').submit(function () {
-                            var val = input.val();
-                            if (val.replace(/\s/g, '') === '') {
-                                return false;
-                            }
-                            input.val('site:phalcon.fastgoo.net ' + input.val());
-                        });
-                    }
-                })
-            }
+             layero.find('form').submit(function () {
+             var val = input.val();
+             if (val.replace(/\s/g, '') === '') {
+             return false;
+             }
+             input.val('site:phalcon.fastgoo.net ' + input.val());
+             });
+             }
+             })
+             }*/
         }
     });
+    var ajaxCallback = {
+        'callbackFunc': false,
+        'submitForm': function (type, callback) {
+            /** 回复消息接口操作方法 */
+            form.on('submit(' + (type ? type : '*') + ')', function (data) {
+                var action = $(data.form).attr('action'), button = $(data.elem);
+                if (data.field.html_content) {
+                    data.field.html_content = fly.content(data.field.html_content);
+                }
+                fly.json(action, data.field, function (res) {
+                    if (res.code == 1) {
+                        layer.alert(res.msg, {
+                            icon: 1,
+                            time: 3 * 1000,
+                            end: this.callbackFunc ? this.callbackFunc() : callback()
+                        });
+                    }
+                });
+                return false;
+            });
+        }
+    };
 
     /** 分页栏初始化 */
     if ($("#page_count").val() > 0) {
@@ -787,6 +782,23 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
         });
         return false;
     });
+    /** callbackFromAJAX */
+    form.on('submit(callback)', function (data) {
+        var action = $(data.form).attr('action'), button = $(data.elem);
+        fly.json(action, data.field, function (res) {
+            if (res.code == 1) {
+                layer.alert(res.msg, {
+                    icon: 1,
+                    time: 3 * 1000,
+                    end: function () {
+
+                    }
+                });
+            }
+        });
+        return false;
+    });
+
     /** 退出登录跳转方法 */
     $("#loginout").on("click", function () {
         layer.confirm('是否确认退出当前账号', {icon: 3, title: '提示'}, function (index) {
@@ -893,7 +905,63 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function 
             layer.close(index);
         });
     });
+    /**************************  点击提交表单请求事件 ********************************/
 
+    //用户设置基础信息
+    $("button[lay-filter='set_userinfo']").click(function () {
+        ajaxCallback.submitForm('set_userinfo', function () {
+
+        });
+    });
+    //设置邮箱认证
+    $("button[lay-filter='set_user_email']").click(function () {
+        ajaxCallback.submitForm('set_user_email', function () {
+
+        });
+    });
+
+    $("#send_email_code").click(function () {
+        fly.json('/user/email/setEmail', {
+            email: $("input[name='email']").val()
+        }, function (res) {
+            if (res.code == 1) {
+                layer.msg(res.msg);
+            }
+        });
+    });
+
+    //上传图片
+    if ($('.upload-img')[0]) {
+        layui.use('upload', function (upload) {
+            var avatarAdd = $('.avatar-add');
+
+            upload.render({
+                elem: '.upload-img'
+                , url: '/base.api/file/upload'
+                , size: 50
+                , before: function () {
+                    avatarAdd.find('.loading').show();
+                }
+                , done: function (res) {
+                    if (res.code == 1) {
+                        var url = res.data.url;
+                        $.post('/user/my/setInfo', {
+                            head_img: res.data.url
+                        }, function (res) {
+                            layer.msg('头像修改成功', {icon: 1});
+                            $("#user_avatar").attr('src', url);
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5});
+                    }
+                    avatarAdd.find('.loading').hide();
+                }
+                , error: function () {
+                    avatarAdd.find('.loading').hide();
+                }
+            });
+        });
+    }
 
     exports('fly', fly);
 

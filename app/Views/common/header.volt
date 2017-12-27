@@ -11,6 +11,9 @@
             {% endfor %}
         </ul>
         <ul class="layui-nav fly-nav-user">
+            <li class="layui-nav-item layui-hide-xs" style="margin-right: 50px;margin-top: 5px;">
+                <span class="fly-search"><i class="layui-icon"></i></span>
+            </li>
             <input type="hidden" value="{{ local_user ? 1 : 0 }}" id="local_user"/>
             <input type="hidden" value="{{ login_type }}" id="set_login_type"/>
             <!-- 登入后的状态 -->
@@ -22,16 +25,19 @@
                             <i class="iconfont icon-renzheng layui-hide-xs"
                                title="认证信息：{{ verify_title[local_user['verify_type']] }}"></i>
                         {% endif %}
-                        <?php if(!empty($verify_title[$local_user['verify_type']])){?>
+                        {#<?php if(!empty($verify_title[$local_user['verify_type']])){?>
                         <i class="layui-badge fly-badge-vip layui-hide-xs">{{ verify_title[local_user['verify_type']] }}</i>
-                        <?php }?>
+                        <?php }?>#}
                         <img src="{{ local_user['head_img'] }}">
+                        <span class="layui-badge-dot" style="position: relative; top: -10px; left: -7px;"></span>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-                        <dd><a href="user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a>
-                        </dd>
-                        <dd><a href="user/home.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+                        <dd><a href="/forum/article/add"><i class="layui-icon">&#xe642;</i>发布文章</a></dd>
+                        <dd><a href="/user/my/index"><i class="layui-icon">&#xe620;</i>个人中心</a></dd>
+                        <dd><a href="/user/my/message">
+                                <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息
+                                <span class="layui-badge-dot" style="position: relative; top: -1px; left: -5px;"></span>
+                            </a>
                         </dd>
                         <hr style="margin: 5px 0;">
                         <dd><a id="loginout" style="text-align: center;">退出</a></dd>

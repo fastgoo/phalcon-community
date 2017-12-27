@@ -147,7 +147,5 @@ if (!function_exists('timeCompute')) {
             $str_time = '1分钟内';
             return $str_time;
         }
-
-
     }
 }

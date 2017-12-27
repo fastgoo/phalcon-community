@@ -51,7 +51,7 @@
                             <div class="layui-form-item layui-form-text">
                                 <div class="layui-input-block">
                         <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"
-                                  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+                                  class="layui-textarea fly-editor" style="height: 350px;"></textarea>
                                 </div>
                             </div>
                             {#<div class="layui-form-item">#}

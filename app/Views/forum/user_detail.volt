@@ -63,6 +63,11 @@
                             </em>
                         </li>
                     {% endfor %}
+                    <?php if(count($articleList) <= 0){?>
+                    <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><i
+                                style="font-size:14px;">这个人很懒，没有发表过任何文章</i></div>
+                    <?php }?>
+
                 </ul>
             </div>
         </div>
@@ -78,7 +83,8 @@
                         </li>
                     {% endfor %}
                     <?php if(count($replyList) <= 0){?>
-                    <li style="text-align: center;line-height: 200px;">这个人很懒，没有主动回复过</li>
+                    <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><i
+                                style="font-size:14px;">这个人很懒，没有任何回复</i></div>
                     <?php }?>
                 </ul>
             </div>
