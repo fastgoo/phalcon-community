@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Models\ForumArticleInfo;
+use App\Models\ForumUserCollection;
 
 class ArticleInfoService
 {
@@ -27,6 +28,87 @@ class ArticleInfoService
             "limit" => 10,
             'cache' => ["lifetime" => 3600, "key" => "article-hot"]
         ]);
+    }
+
+    public function getArticleFromUsers(Array $user = [], int $page = 1, int $nums = 15)
+    {
+        $conditions = "user_id = :user_id: AND status = :status:";
+        $bind = ['user_id' => $user['id'], 'status' => 1];
+        $data = ForumArticleInfo::find([
+            "conditions" => $conditions,
+            "bind" => $bind,
+            'order' => "id DESC",
+            'limit' => $nums,
+            'offset' => ($page - 1) * $nums,
+        ]);
+        $count = ForumArticleInfo::count([
+            "conditions" => $conditions,
+            "bind" => $bind
+        ]);
+        return [
+            'rows' => $data,
+            'count' => $count,
+            'max_page' => (int)ceil($count / $nums)
+        ];
+    }
+
+
+    /**
+     * 获取指定用户的文件，分页操作
+     * @param array $user
+     * @param int $page
+     * @param int $nums
+     * @return array
+     */
+    public static function getMyArticle(Array $user = [], int $page = 1, int $nums = 15)
+    {
+        $conditions = "user_id = :user_id: AND status = :status:";
+        $bind = ['user_id' => $user['id'], 'status' => 1];
+        $data = ForumArticleInfo::find([
+            "conditions" => $conditions,
+            "bind" => $bind,
+            'order' => "id DESC",
+            'limit' => $nums,
+            'offset' => ($page - 1) * $nums,
+        ]);
+        $count = ForumArticleInfo::count([
+            "conditions" => $conditions,
+            "bind" => $bind
+        ]);
+        return [
+            'rows' => $data,
+            'count' => $count,
+            'max_page' => (int)ceil($count / $nums)
+        ];
+    }
+
+    /**
+     * 获取收藏文章信息
+     * @param array $user
+     * @param int $page
+     * @param int $nums
+     * @return array
+     */
+    public static function getCollectionArticle(Array $user = [], int $page = 1, int $nums = 15)
+    {
+        $conditions = "user_id = :user_id: AND status = :status:";
+        $bind = ['user_id' => $user['id'], 'status' => 1];
+        $data = ForumUserCollection::find([
+            "conditions" => $conditions,
+            "bind" => $bind,
+            'order' => "id DESC",
+            'limit' => $nums,
+            'offset' => ($page - 1) * $nums,
+        ]);
+        $count = ForumUserCollection::count([
+            "conditions" => $conditions,
+            "bind" => $bind
+        ]);
+        return [
+            'rows' => $data,
+            'count' => $count,
+            'max_page' => (int)ceil($count / $nums)
+        ];
     }
 
 

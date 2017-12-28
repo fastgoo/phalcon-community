@@ -245,6 +245,11 @@ pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid 
 .fly-list li h2 .layui-badge2{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #d93a33; background: none; color: #d93a33;}
 .fly-list li h2 .layui-badge3{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #5FB878; background: none; color: #5FB878;}
 
+.layui-badge-reset0{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #c4c6c4; background: none; color: #c4c6c4;}
+.layui-badge-reset1{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #42b844; background: none; color: #42b844;}
+.layui-badge-reset2{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #d93a33; background: none; color: #d93a33;}
+.layui-badge-reset3{top: -2px; height: 16px; line-height: 16px; padding: 0 5px; margin-right: 10px; font-size: 12px; border: 1px solid #5FB878; background: none; color: #5FB878;}
+
 .fly-list-info{position: relative; font-size: 13px; color: #999;}
 .fly-list-info>*{padding-right: 15px;}
 .fly-list-info a[link]{color: #999;}
@@ -316,6 +321,7 @@ body .layui-edit-face  .layui-layer-content{padding:0; background-color:#fff; co
 .jie-row li cite{padding-right:15px;}
 .jie-row li i, .jie-row li em, .jie-row li cite{font-size:12px; color:#999; font-style: normal;}
 .jie-row li .mine-edit{margin-left:15px; padding:0 6px; background-color: #8FCDA0; color:#fff; font-size:12px;}
+.jie-row li .mine-delete{margin-left:15px; padding:0 6px; background-color: #ff1813; color:#fff; font-size:12px;}
 .jie-row li em{position:absolute; right:0; top:0;}
 .jie-row li .jie-user{}
 .jie-row li .jie-title{max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}

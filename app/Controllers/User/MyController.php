@@ -12,6 +12,8 @@ use App\Controllers\BaseController;
 use App\Models\ForumArticleInfo;
 use App\Models\ForumArticleReply;
 use App\Models\ForumUser;
+use App\Models\ForumUserCollection;
+use App\Services\ArticleInfoService;
 
 class MyController extends BaseController
 {
@@ -41,6 +43,50 @@ class MyController extends BaseController
     }
 
     /**
+     * 消息中心
+     */
+    public function messageAction()
+    {
+        $this->view->user_menu_choose = 'message';
+        $this->view->render("user", "message");
+    }
+
+    /**
+     * 我的文章列表（我发布的，我收藏的）
+     * @param int $type
+     */
+    public function articleAction($type = 0)
+    {
+        $this->view->user_menu_choose = 'article';
+        $this->view->article_nums = ForumArticleInfo::count([
+            'conditions' => 'user_id = :user_id: AND status = :status:',
+            'bind' => ['user_id' => $this->user['id'], 'status' => 1]
+        ]);
+        $this->view->collection_nums = ForumUserCollection::count([
+            'conditions' => 'user_id = :user_id: AND status = :status:',
+            'bind' => ['user_id' => $this->user['id'], 'status' => 1]
+        ]);
+        $this->view->render("user", "article");
+    }
+
+    /**
+     * 我关注
+     */
+    public function attentionAction()
+    {
+        $this->view->user_menu_choose = 'attention';
+        $this->view->article_nums = ForumArticleInfo::count([
+            'conditions' => 'user_id = :user_id: AND status = :status:',
+            'bind' => ['user_id' => $this->user['id'], 'status' => 1]
+        ]);
+        $this->view->collection_nums = ForumUserCollection::count([
+            'conditions' => 'user_id = :user_id: AND status = :status:',
+            'bind' => ['user_id' => $this->user['id'], 'status' => 1]
+        ]);
+        $this->view->render("user", "attention");
+    }
+
+    /**
      * 设置用户基础信息
      */
     public function setInfoAction()
@@ -54,7 +100,7 @@ class MyController extends BaseController
         !empty($nickname) && $updateData['nickname'] = $nickname;
         !empty($city) && $updateData['city'] = $city;
         !empty($sign) && $updateData['sign'] = $sign;
-        is_numeric($sex) && $updateData['city'] = $city;
+        is_numeric($sex) && $updateData['sex'] = $sex;
         !empty($head_img) && $updateData['head_img'] = $head_img;
 
         $user = ForumUser::findFirst([
@@ -68,45 +114,6 @@ class MyController extends BaseController
         }
 
         output_data(1, '修改成功');
-    }
-
-    public function checkEmailAction()
-    {
-
-    }
-
-    public function detailAction($user_id = 0)
-    {
-        $articleList = ForumArticleInfo::find([
-            'conditions' => 'user_id = :user_id: AND status = :status:',
-            'bind' => [
-                'user_id' => $user_id,
-                'status' => 1,
-            ],
-            'columns' => 'id,title,is_essence,is_top,reply_nums,view_nums,created_time,created_time',
-            'cache' => ["lifetime" => 3600 * 1, "key" => "article_list_from_user_id_{$user_id}"]
-        ]);
-        $userInfo = ForumUser::findFirst([
-            'conditions' => 'id = :user_id: AND status = :status:',
-            'bind' => [
-                'user_id' => $user_id,
-                'status' => 1,
-            ],
-        ]);
-
-        $replyList = ForumArticleReply::find([
-            'conditions' => 'user_id = :user_id: AND status = :status:',
-            'bind' => [
-                'user_id' => $user_id,
-                'status' => 1,
-            ],
-            'cache' => ["lifetime" => 3600 * 1, "key" => "reply_list_from_user_id_{$user_id}"]
-        ]);
-        $this->view->articleList = $articleList;
-        $this->view->userInfo = $userInfo;
-        $this->view->verifyTitle = $this->commonConfig->verify_title->toArray();
-        $this->view->replyList = $replyList;
-        $this->view->render("forum", "user_detail");
     }
 
 

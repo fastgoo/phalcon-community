@@ -55,6 +55,12 @@ class ForumUserCollection extends BaseModel
     public function initialize()
     {
         $this->setSchema("phalcon-forum");
+        $this->hasOne(
+            "article_id",
+            "App\\Models\\ForumArticleInfo",
+            "id",
+            ['alias' => 'articleInfo']
+        );
     }
 
     /**
