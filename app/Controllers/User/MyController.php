@@ -61,9 +61,8 @@ class MyController extends BaseController
 
     /**
      * 我的文章列表（我发布的，我收藏的）
-     * @param int $type
      */
-    public function articleAction($type = 0)
+    public function articleAction()
     {
         $this->view->user_menu_choose = 'article';
         $this->view->article_nums = ForumArticleInfo::count([

@@ -97,7 +97,7 @@ class ReplyService
             'columns' => 'id',
         ]);
         if (!$article_arr->toArray()) {
-            output_data(1, 'success', ['rows' => [], 'count' => 0, 'max_page' => 0]);
+            return ['rows' => [], 'count' => 0, 'max_page' => 0];
         }
 
         $conditions = "article_id IN ({article_id:array}) AND status = :status:";
