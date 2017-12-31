@@ -189,9 +189,10 @@ class ReplyService
                 "bind" => $bind,
                 'columns' => 'id',
             ]);
-            if (!$article_arr) {
+            if (!$article_arr->toArray()) {
                 return 0;
             }
+
             $conditions = "article_id IN ({article_id:array}) AND status = :status: AND created_time > :created_time:";
             $bind = ['article_id' => array_column($article_arr->toArray(), 'id'), 'status' => 1, 'created_time' => $created_time];
             return ForumArticleReply::count([
