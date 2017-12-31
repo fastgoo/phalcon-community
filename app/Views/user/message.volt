@@ -44,7 +44,9 @@
                     </ul>
                     <div id="LAY_page"></div>
                     <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
-                        <div id="article_dynamic_pagination"></div>
+                        {% if reply_nums > 0 %}
+                            <div id="article_dynamic_pagination"></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="layui-tab-item">
@@ -53,7 +55,9 @@
                     </ul>
                     <div id="LAY_page1"></div>
                     <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
-                        <div id="attention_user_pagination"></div>
+                        {% if at_nums > 0 %}
+                            <div id="attention_user_pagination"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

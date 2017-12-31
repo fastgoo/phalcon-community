@@ -38,7 +38,9 @@
                     </ul>
                     <div id="LAY_page"></div>
                     <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
-                        <div id="article_dynamic_pagination"></div>
+                        {% if dynamic_nums > 0 %}
+                            <div id="article_dynamic_pagination"></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="layui-tab-item">
@@ -47,7 +49,9 @@
                     </ul>
                     <div id="LAY_page1"></div>
                     <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
-                        <div id="attention_user_pagination"></div>
+                        {% if attention_nums > 0 %}
+                            <div id="attention_user_pagination"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -99,7 +103,7 @@
             str += '</a></div>';
             str += '<span style="color: #9F9F9F">关注于：' + data.time + '</span>';
             str += '<div class="fly-list-badge">';
-            str += '<button class="layui-btn layui-btn-radius layui-btn-primary cancel_attention" data-user_id="'+data.attention_user_id+'">取消关注</button>';
+            str += '<button class="layui-btn layui-btn-radius layui-btn-primary cancel_attention" data-user_id="' + data.attention_user_id + '">取消关注</button>';
             str += '</div>';
             str += '</li>';
             return str;
@@ -109,7 +113,7 @@
             console.log(data);
             var str = '<li>';
             str += '<a href="/user/home/detail/' + data.user_id + '" class="fly-avatar">';
-            str += '<img src="' + data.head_img + '" alt="'+data.nickname+'"></a>';
+            str += '<img src="' + data.head_img + '" alt="' + data.nickname + '"></a>';
             str += '<h2><a href="/forum/article/detail/' + data.id + '">' + data.title + '</a></h2>';
             str += '<div class="fly-list-info">';
             str += '<a href="/user/home/detail/' + data.user_id + '" link="">';
@@ -134,10 +138,10 @@
             }
         };
 
-        $(document).on("click",'.cancel_attention',function () {
+        $(document).on("click", '.cancel_attention', function () {
             var user_id = $(this).data('user_id');
             var that = $(this);
-            request.post('/user/attention/setAttention',{user_id:user_id},function () {
+            request.post('/user/attention/setAttention', {user_id: user_id}, function () {
                 console.log(that.parent().parent());
                 that.parent().parent().remove();
             })

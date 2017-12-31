@@ -35,7 +35,9 @@
                     </ul>
                     <div id="LAY_page"></div>
                     <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
-                        <div id="my_article_pagination"></div>
+                        {% if article_nums > 0 %}
+                            <div id="my_article_pagination"></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="layui-tab-item">
@@ -44,7 +46,9 @@
                     </ul>
                     <div id="LAY_page1"></div>
                     <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
-                        <div id="my_collection_pagination"></div>
+                        {% if collection_nums > 0 %}
+                            <div id="my_collection_pagination"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -121,9 +125,9 @@
         };
 
         var request = {
-            post: function (param,callback) {
+            post: function (param, callback) {
                 $.post('/user/article/getMyData', param ? param : {}, function (res) {
-                    if(res.code == 1){
+                    if (res.code == 1) {
                         callback(res.data);
                     }
                 })
@@ -141,7 +145,7 @@
                         type: 1,
                         current_page: obj.curr,
                         page_nums: obj.limit
-                    },function (data) {
+                    }, function (data) {
                         var str = '';
                         for (var i = 0; i < data.rows.length; i++) {
                             str += showTemplate(data.rows[i]);
@@ -159,7 +163,7 @@
                         type: 2,
                         current_page: obj.curr,
                         page_nums: obj.limit
-                    },function (data) {
+                    }, function (data) {
                         var str = '';
                         for (var i = 0; i < data.rows.length; i++) {
                             str += showTemplate1(data.rows[i]);
