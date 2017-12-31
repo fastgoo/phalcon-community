@@ -96,7 +96,7 @@ class ReplyService
             "bind" => $bind,
             'columns' => 'id',
         ]);
-        if (!$article_arr) {
+        if (!$article_arr->toArray()) {
             output_data(1, 'success', ['rows' => [], 'count' => 0, 'max_page' => 0]);
         }
 
