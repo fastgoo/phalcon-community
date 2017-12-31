@@ -26,7 +26,12 @@ $config = $di->getConfig();
 /**
  * Include Autoloader
  */
-include APP_PATH . '/config/loader.php';
+$loader = new \Phalcon\Loader();
+
+$loader->registerDirs([
+    APP_PATH . '/tasks'
+]);
+$loader->register();
 
 /**
  * 引入composer自动加载
@@ -37,6 +42,8 @@ include PROJECT_PATH . '/vendor/autoload.php';
  * Create a console application
  */
 $console = new ConsoleApp($di);
+
+$di->setShared("console", $console);
 
 /**
  * Process the console arguments

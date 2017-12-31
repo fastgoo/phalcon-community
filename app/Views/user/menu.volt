@@ -6,7 +6,11 @@
         <a href="{{ user_menu_choose != "set_info" ? '/user/my/index' : 'javascript:' }}"> <i class="layui-icon"></i> 基本资料 </a>
     </li>
     <li class="layui-nav-item{{ user_menu_choose == "message" ? ' layui-this' : '' }}">
-        <a href="{{ user_menu_choose != "message" ? '/user/my/message' : 'javascript:' }}"> <i class="layui-icon"></i> 我的消息 </a>
+        <a href="{{ user_menu_choose != "message" ? '/user/my/message' : 'javascript:' }}"> <i class="layui-icon"></i> 我的消息
+            {% if is_has_new_msg > 0 %}
+            <span class="layui-badge-dot"></span>
+            {% endif %}
+        </a>
     </li>
     <li class="layui-nav-item{{ user_menu_choose == "article" ? ' layui-this' : '' }}">
         <a href="{{ user_menu_choose != "article" ? '/user/my/article' : 'javascript:' }}"> <i class="layui-icon">&#xe609;</i> 我的文章 </a>

@@ -29,14 +29,19 @@
                         <i class="layui-badge fly-badge-vip layui-hide-xs">{{ verify_title[local_user['verify_type']] }}</i>
                         <?php }?>#}
                         <img src="{{ local_user['head_img'] }}">
-                        <span class="layui-badge-dot" style="position: relative; top: -10px; left: -7px;"></span>
+                        {% if is_has_new_msg > 0 %}
+                            <span class="layui-badge-dot" style="position: relative; top: -10px; left: -7px;"></span>
+                        {% endif %}
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="/forum/article/add"><i class="layui-icon">&#xe642;</i>发布文章</a></dd>
                         <dd><a href="/user/my/index"><i class="layui-icon">&#xe620;</i>个人中心</a></dd>
                         <dd><a href="/user/my/message">
                                 <i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息
-                                <span class="layui-badge-dot" style="position: relative; top: -1px; left: -5px;"></span>
+                                {% if is_has_new_msg > 0 %}
+                                    <span class="layui-badge-dot"
+                                          style="position: relative; top: -1px; left: -5px;"></span>
+                                {% endif %}
                             </a>
                         </dd>
                         <hr style="margin: 5px 0;">

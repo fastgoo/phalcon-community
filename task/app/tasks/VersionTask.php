@@ -6,6 +6,7 @@ class VersionTask extends \Phalcon\Cli\Task
     {
 
         $data = \App\Models\ForumUser::findFirst('id = 11');
+
         var_dump($data->toArray());
         //$config = $this->getDI()->get('config');
 

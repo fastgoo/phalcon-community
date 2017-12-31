@@ -117,7 +117,7 @@ pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid 
 
 /* 头像 */
 .fly-avatar{position: absolute; left: 15px; top: 15px;}
-.fly-avatar img{display: block; width: 45px; height: 45px; margin: 0; border-radius: 2px;}
+.fly-avatar img{width: 36px; height: 36px; margin-left: 10px; border-radius: 100%;}
 
 /* 徽章 */
 .fly-badge-vip{height: 16px; line-height: 16px; padding: 0 3px; background-color: #FF5722; color: #fff; border-radius: 2px;}
@@ -233,6 +233,7 @@ pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid 
 
 /* 列表 */
 .fly-list li{position: relative; height: 45px; line-height: 22px; padding: 15px 15px 15px 75px; border-bottom: 1px dotted #e2e2e2;}
+.fly-list-message li{position: relative; line-height: 22px; padding: 15px 15px 15px 75px; border-bottom: 1px dotted #e2e2e2;}
 .fly-list li:last-child{border-bottom: none;}
 .fly-list li h2,
 .fly-list li h2 a,

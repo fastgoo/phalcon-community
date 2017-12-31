@@ -38,7 +38,7 @@ return new Config([
         // This allows the baseUri to be understand project paths that are not in the root directory
         // of the webpspace.  This will break if the public/index.php entry point is moved or
         // possibly if the web server rewrite rules are changed. This can also be set to a static path.
-        'baseUri' => "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}"
+        'baseUri' => !empty($_SERVER['REQUEST_SCHEME']) && !empty($_SERVER['HTTP_HOST']) ? "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}" : ""
     ],
     /** 默认控制器和方法 */
     'baseController' => 'home',

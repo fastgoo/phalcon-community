@@ -12,8 +12,10 @@ use App\Controllers\BaseController;
 use App\Models\ForumArticleInfo;
 use App\Models\ForumArticleReply;
 use App\Models\ForumUser;
+use App\Models\ForumUserAttention;
 use App\Models\ForumUserCollection;
 use App\Services\ArticleInfoService;
+use App\Services\ReplyService;
 
 class MyController extends BaseController
 {
@@ -48,6 +50,12 @@ class MyController extends BaseController
     public function messageAction()
     {
         $this->view->user_menu_choose = 'message';
+        $reply_res = ReplyService::getMyArticleReply($this->user, 1, 15, 2);
+        $at_reply_res = ReplyService::getAtMeReply($this->user, 1, 15, 2);
+        $this->view->reply_nums = $reply_res['count'];
+        $this->view->at_nums = $at_reply_res['count'];
+        $this->view->reply_new_nums = ReplyService::hasNewMessage($this->user, 1);
+        $this->view->at_new_nums = ReplyService::hasNewMessage($this->user, 2);
         $this->view->render("user", "message");
     }
 
@@ -75,11 +83,11 @@ class MyController extends BaseController
     public function attentionAction()
     {
         $this->view->user_menu_choose = 'attention';
-        $this->view->article_nums = ForumArticleInfo::count([
+        $this->view->dynamic_nums = ForumArticleInfo::count([
             'conditions' => 'user_id = :user_id: AND status = :status:',
             'bind' => ['user_id' => $this->user['id'], 'status' => 1]
         ]);
-        $this->view->collection_nums = ForumUserCollection::count([
+        $this->view->attention_nums = ForumUserAttention::count([
             'conditions' => 'user_id = :user_id: AND status = :status:',
             'bind' => ['user_id' => $this->user['id'], 'status' => 1]
         ]);

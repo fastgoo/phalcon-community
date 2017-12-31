@@ -19,59 +19,45 @@
     <div class="site-tree-mobile layui-hide"><i class="layui-icon"></i></div>
     <div class="site-mobile-shade"></div>
     <div class="fly-panel fly-panel-user" pad20="">
-        <div class="layui-tab layui-tab-brief" lay-filter="user" id="LAY_msg" style="margin-top: 15px;">
+        <input type="hidden" id="page_nums" value="15"/>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <input value="{{ reply_nums }}" type="hidden" id="dynamic_nums"/>
+            <input value="{{ at_nums }}" type="hidden" id="attention_nums"/>
             <ul class="layui-tab-title" id="LAY_mine">
-                <li class="layui-this">回复文章</li>
-                <li class="">@我</li>
+                <li data-type="mine-jie" lay-id="index" class="layui-this" id="reply_me">
+                    回复我的文章
+                    {% if reply_new_nums > 0 %}
+                        <span class="layui-badge-dot"></span>
+                    {% endif %}
+                </li>
+                <li data-type="collection" lay-id="collection" id="at_me">
+                    @我
+                    {% if at_new_nums > 0 %}
+                        <span class="layui-badge-dot"></span>
+                    {% endif %}
+                </li>
             </ul>
-            <div class="layui-tab-content" style="padding: 20px 0;">
-                <div class="layui-form layui-form-pane layui-tab-item layui-show">
-                    <button class="layui-btn layui-btn-radius layui-btn-danger" id="LAY_delallmsg">清空消息</button>
-                    <div id="LAY_minemsg" style="margin-top: 10px;">
-                        <!--<div class="fly-none">您暂时没有最新消息</div>-->
-                        <ul class="mine-msg">
-                             <?php foreach (range(1,10) as $val){?>
-                            <li data-id="123">
-                                <blockquote class="layui-elem-quote">
-                                    <a href="/jump?username=Absolutely" target="_blank">
-                                        <cite>Absolutely</cite>
-                                        </a>回答了您的求解<a target="_blank" href="/jie/8153.html/page/0/#item-1489505778669">
-                                        <cite>layui后台框架</cite>
-                                    </a>
-                                </blockquote>
-                                <p><span>1小时前</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
-                            </li>
-                            <?php }?>
-                            <li data-id="123">
-                                <blockquote class="layui-elem-quote">
-                                    系统消息：欢迎使用 layui
-                                </blockquote>
-                                <p><span>1小时前</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
-                            </li>
-                        </ul>
+            <div class="layui-tab-content" style="">
+                <div class="layui-tab-item layui-show">
+                    <ul class="fly-list-message my-article">
+
+                    </ul>
+                    <div id="LAY_page"></div>
+                    <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
+                        <div id="article_dynamic_pagination"></div>
                     </div>
                 </div>
-                <div class="layui-form layui-form-pane layui-tab-item">
-                    <button class="layui-btn layui-btn-danger" id="LAY_delallmsg">清空全部消息</button>
-                    <div id="LAY_minemsg" style="margin-top: 10px;">
-                        <!--<div class="fly-none">您暂时没有最新消息</div>-->
-                        <ul class="mine-msg">
-                            <li data-id="123">
-                                <blockquote class="layui-elem-quote">
-                                    <a href="/jump?username=Absolutely" target="_blank"><cite>Absolutely</cite></a>回答了您的求解<a target="_blank" href="/jie/8153.html/page/0/#item-1489505778669"><cite>layui后台框架</cite></a>
-                                </blockquote>
-                                <p><span>1小时前</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
-                            </li>
-                            <li data-id="123">
-                                <blockquote class="layui-elem-quote">
-                                    系统消息：欢迎使用 layui
-                                </blockquote>
-                                <p><span>1小时前</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
-                            </li>
-                        </ul>
+                <div class="layui-tab-item">
+                    <ul class="fly-list-message attention_user">
+
+                    </ul>
+                    <div id="LAY_page1"></div>
+                    <div style="text-align: center;margin-top: 20px;padding-bottom: 10px;">
+                        <div id="attention_user_pagination"></div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -86,7 +72,7 @@
 {{ partial("common/footer",['links': '123']) }}
 
 
-<script src="/app/layui/layui.js"></script>
+<script src="/app/layui/layui.all.js"></script>
 <script>
     layui.cache.page = '';
     layui.cache.user = {
@@ -102,6 +88,110 @@
     }).extend({
         fly: 'index'
     }).use('fly', 'face');
+</script>
+<script>
+    var $ = layui.jquery;
+    $(function () {
+        var showTemplate1 = function (data) {
+            var str = '<li>';
+            str += '<a href="/user/home/detail/' + data.user_id + '" class="fly-avatar"><img src="' + data.head_img + '" alt="周先生" "></a>';
+            str += '<div class="fly-list-info">';
+            str += '<a href="/user/home/detail/' + data.user_id + '" link="" class="layui-hide-xs" style="color: #2E2D3C">';
+            str += '<cite>' + data.nickname + '</cite>';
+            if (data.type_name) {
+                str += '<i class="iconfont icon-renzheng" title="认证信息：' + data.type_name + '"></i>';
+                str += '<i class="layui-badge fly-badge-vip">' + data.type_name + '</i>';
+            }
+            str += '</a><span class="layui-hide-xs"">在话题@了你</span><span class="layui-hide-xs"></span><a href="/forum/article/detail/' + data.article_id + '">' + data.title + '</a><span style="float: right;margin-right: 10px;" ">' + data.time + '</span></div>';
+            str += '<span style="color: #9F9F9F;">' + data.content + '</span>';
+            str += '<div class="fly-list-badge">';
+            str += '</div>';
+            str += '</li>';
+            return str;
+        };
+
+        var showTemplate = function (data) {
+            var str = '<li>';
+            str += '<a href="/user/home/detail/' + data.user_id + '" class="fly-avatar"><img src="' + data.head_img + '" alt="周先生" "></a>';
+            str += '<div class="fly-list-info">';
+            str += '<a href="/user/home/detail/' + data.user_id + '" link="" class="layui-hide-xs" style="color: #2E2D3C">';
+            str += '<cite>' + data.nickname + '</cite>';
+            if (data.type_name) {
+                str += '<i class="iconfont icon-renzheng" title="认证信息：' + data.type_name + '"></i>';
+                str += '<i class="layui-badge fly-badge-vip">' + data.type_name + '</i>';
+            }
+            str += '</a><span class="layui-hide-xs"">回复你的话题</span><span class="layui-hide-xs"></span><a href="/forum/article/detail/' + data.article_id + '">' + data.title + '</a><span style="float: right;margin-right: 10px;" ">' + data.time + '</span></div>';
+            str += '<span style="color: #9F9F9F;">' + data.content + '</span>';
+            str += '<div class="fly-list-badge">';
+            str += '</div>';
+            str += '</li>';
+            return str;
+        };
+        $("#reply_me").click(function () {
+            var that = $(this);
+            $.post('/user/reply/setReadMsg', {type: 1}, function (res) {
+                if (res.code == 1) {
+                    that.find('.layui-badge-dot').remove();
+                }
+            })
+        });
+        $("#at_me").click(function () {
+            var that = $(this);
+            $.post('/user/reply/setReadMsg', {type: 2}, function (res) {
+                if (res.code == 1) {
+                    that.find('.layui-badge-dot').remove();
+                }
+            })
+        });
+
+        var request = {
+            post: function (url, param, callback) {
+                $.post(url, param ? param : {}, function (res) {
+                    if (res.code == 1) {
+                        callback(res.data);
+                    }
+                })
+            }
+        };
+
+        layui.use('laypage', function () {
+            var laypage = layui.laypage;
+            laypage.render({
+                elem: 'article_dynamic_pagination'
+                , count: $("#dynamic_nums").val()
+                , limit: $("#page_nums").val()
+                , jump: function (obj) {
+                    request.post('/user/reply/myReplyList', {
+                        current_page: obj.curr,
+                        page_nums: obj.limit
+                    }, function (data) {
+                        var str = '';
+                        for (var i = 0; i < data.rows.length; i++) {
+                            str += showTemplate(data.rows[i]);
+                        }
+                        $(".my-article").html(str);
+                    });
+                }
+            });
+            laypage.render({
+                elem: 'attention_user_pagination'
+                , count: $("#attention_nums").val()
+                , limit: $("#page_nums").val()
+                , jump: function (obj) {
+                    request.post('/user/reply/atMeList', {
+                        current_page: obj.curr,
+                        page_nums: obj.limit
+                    }, function (data) {
+                        var str = '';
+                        for (var i = 0; i < data.rows.length; i++) {
+                            str += showTemplate1(data.rows[i]);
+                        }
+                        $(".attention_user").html(str);
+                    });
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>
