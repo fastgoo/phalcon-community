@@ -119,7 +119,7 @@ if (!function_exists('timeCompute')) {
 
         if ($month <= $times) { //月
             $month_name = $times % $month; //小时
-            $month_name = ($times - $month_name) / $day;
+            $month_name = ($times - $month_name) / $month;
             $str_time = $month_name . '个月前';
             return $str_time;
         }
